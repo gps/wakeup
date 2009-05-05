@@ -2,6 +2,8 @@ package edu.umich.gopalkri.wakeup;
 
 import android.app.Activity;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -16,6 +18,16 @@ import android.widget.TextView;
  */
 public class Home extends Activity
 {
+    /**
+     * Position of the Settings option in the options menu.
+     */
+    public static final int MENU_SETTINGS = Menu.FIRST;
+
+    /**
+     * Position of the Help option in the options menu.
+     */
+    public static final int MENU_HELP = Menu.FIRST + 1;
+
     /** Called when the activity is first created. */
     @Override
     public void onCreate(Bundle savedInstanceState)
@@ -24,6 +36,39 @@ public class Home extends Activity
         setContentView(R.layout.home);
 
         setupUI();
+    }
+
+    /**
+     * @see android.app.Activity#onCreateOptionsMenu(android.view.Menu)
+     */
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu)
+    {
+        boolean result = super.onCreateOptionsMenu(menu);
+
+        menu.add(Menu.NONE, MENU_SETTINGS, Menu.NONE, R.string.home_settings);
+        menu.add(Menu.NONE, MENU_HELP, Menu.NONE, R.string.home_help);
+
+        return result;
+    }
+
+    /**
+     * @see android.app.Activity#onOptionsItemSelected(android.view.MenuItem)
+     */
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item)
+    {
+        switch (item.getItemId())
+        {
+        case MENU_SETTINGS:
+            // TODO: start Settings Activity
+            return true;
+
+        case MENU_HELP:
+            // TODO: display Help Activity
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
     }
 
     /**
@@ -85,6 +130,10 @@ public class Home extends Activity
         }
     }
 
+    /**
+     * Fetches names of all existing alarms.
+     * @return Names of all existing alarms.
+     */
     private String[] getAllAlarmNames()
     {
         // TODO Auto-generated method stub

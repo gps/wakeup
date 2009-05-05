@@ -9,5 +9,7 @@
     <string name="home_create_new_alarm">Create New Alarm</string>
     <string name="home_manage_existing_alarms">Manage Exising Alarms</string>
     <string name="home_no_alarms_exist">No Alarms Exist</string>
+    <string name="home_settings">Settings</string>
+    <string name="home_help">Help</string>
 
 </resources>
