@@ -1,0 +1,24 @@
+Wake Up! is an Android application that allows you to maximize your sleep time
+by allowing you to sleep peacefully and safely when you're on a bus. It allows
+you to set an alarm which is triggered when you approach your destination. This
+way you set an alarm when you get on, go to sleep, and get woken up right on 
+time. 
+
+I wrote this app mostly for my own benefit, but plan on releasing it to the 
+Android Market in the near future as a free application. If you have any 
+thoughts, comments, feedback, please let me know via email.
+
+I plan on releasing the source code under the LGPL once I get it to a point 
+where it sorta works. Until then, feel free to do what you want with it.
+Keep in mind that I provide no guarantees whatsoever, and am not responsible
+for any consequences of using this code. I would much appreciate it if you let
+me know if you do use the app or the source. It's always nice to know that 
+other people use what I write :)
+
+CONTACT:
+You can contact me via email: gopalkrishnaps@gmail.com / gopalkri@umich.edu
+
+Author:
+Gopalkrishna Sharma (aka Gopal)
+
+Have fun with Wake Up!
