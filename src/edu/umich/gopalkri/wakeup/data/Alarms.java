@@ -1,14 +1,16 @@
 package edu.umich.gopalkri.wakeup.data;
 
+import java.io.BufferedReader;
 import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.PrintWriter;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Set;
-
-import org.ho.yaml.Yaml;
 
 import android.content.Context;
+import edu.umich.gopalkri.wakeup.data.Alarm.InvalidAlarmStringException;
 
 public class Alarms
 {
@@ -19,13 +21,25 @@ public class Alarms
         this.ctx = ctx;
         try
         {
-            InputStream is = ctx.openFileInput(ALARMS_FILE);
-            alarmsContainer = (AlarmsContainer) Yaml.load(is);
+            alarmsContainer = new AlarmsContainer(convertInputStreamToString(ctx
+                    .openFileInput(ALARMS_FILE)));
         }
         catch (FileNotFoundException e)
         {
-            // If file does not exist, no problem. It will get created when the first alarm is
-            // created.
+            // If file does not exist, no problem. It will get created when the
+            // first alarm is created.
+            alarmsContainer = new AlarmsContainer();
+        }
+        catch (IOException e)
+        {
+            // If the file could not be read, no problem. Assume that there is
+            // nothing in it, and start afresh.
+
+        }
+        catch (InvalidAlarmStringException e)
+        {
+            // If the file format was illegal, nothing can be done but to reset
+            // to blank file.
             alarmsContainer = new AlarmsContainer();
         }
     }
@@ -38,20 +52,28 @@ public class Alarms
     public void addAlarm(Alarm alarm) throws AlarmAlreadyExistsException, FileNotFoundException
     {
         alarmsContainer.addAlarm(alarm);
-        Yaml.dump(alarmsContainer, ctx.openFileOutput(ALARMS_FILE, Context.MODE_PRIVATE));
+        PrintWriter pw = new PrintWriter(ctx.openFileOutput(ALARMS_FILE, Context.MODE_PRIVATE));
+        pw.write(alarmsContainer.toString());
+        pw.flush();
+        pw.close();
     }
 
     public String[] getAllAlarmNames()
     {
-        Set<String> keySet = alarmsContainer.getAlarms().keySet();
-        int numAlarms = keySet.size();
-        if (numAlarms <= 0)
+        return alarmsContainer.getAllAlarmNames();
+    }
+
+    private static String convertInputStreamToString(InputStream is) throws IOException
+    {
+        BufferedReader br = new BufferedReader(new InputStreamReader(is));
+        StringBuilder sb = new StringBuilder();
+        String line = null;
+        while ((line = br.readLine()) != null)
         {
-            return null;
+            sb.append(line);
+            sb.append("\n");
         }
-        String[] ret = new String[numAlarms];
-        ret = keySet.toArray(ret);
-        return ret;
+        return sb.toString();
     }
 
     private Context ctx;
@@ -67,6 +89,27 @@ public class Alarms
 
         public AlarmsContainer()
         {}
+
+        public AlarmsContainer(String acString) throws InvalidAlarmStringException
+        {
+            String dbg = acString;
+            for (String alarmStr : acString.split("\n"))
+            {
+                Alarm alarm = new Alarm(alarmStr);
+                alarms.put(alarm.getName(), alarm);
+            }
+        }
+
+        public String toString()
+        {
+            StringBuilder sb = new StringBuilder();
+            for (Alarm alarm : alarms.values())
+            {
+                sb.append(alarm.toString());
+                sb.append("\n");
+            }
+            return sb.toString();
+        }
 
         public Alarm getAlarm(String name)
         {
@@ -86,14 +129,16 @@ public class Alarms
             alarms.put(alarm.getName(), alarm);
         }
 
-        public Map<String, Alarm> getAlarms()
+        public String[] getAllAlarmNames()
         {
-            return alarms;
-        }
-
-        public void setAlarms(Map<String, Alarm> alarms)
-        {
-            this.alarms = alarms;
+            int numAlarms = alarms.size();
+            if (numAlarms <= 0)
+            {
+                return null;
+            }
+            String[] ret = new String[numAlarms];
+            ret = alarms.keySet().toArray(ret);
+            return ret;
         }
 
         private Map<String, Alarm> alarms = new HashMap<String, Alarm>();

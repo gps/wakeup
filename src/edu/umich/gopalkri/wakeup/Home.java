@@ -1,5 +1,7 @@
 package edu.umich.gopalkri.wakeup;
 
+import java.io.FileNotFoundException;
+
 import android.app.Activity;
 import android.os.Bundle;
 import android.view.Menu;
@@ -10,6 +12,10 @@ import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
+import edu.umich.gopalkri.wakeup.data.Alarm;
+import edu.umich.gopalkri.wakeup.data.AlarmAlreadyExistsException;
+import edu.umich.gopalkri.wakeup.data.Alarms;
+import edu.umich.gopalkri.wakeup.data.InvalidAlarmNameException;
 
 /**
  * The Activity that represents the "Home" screen.
@@ -34,6 +40,8 @@ public class Home extends Activity
     {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.home);
+
+        mAlarms = new Alarms(this);
 
         setupUI();
     }
@@ -90,7 +98,30 @@ public class Home extends Activity
         createNewAlarm.setOnClickListener(new View.OnClickListener()
         {
             public void onClick(View v)
-            {}
+            {
+                // TESTING CODE
+                Alarm alarm;
+                try
+                {
+                    alarm = new Alarm("Alarm1", 2.0, 3.0, 4.0, Alarm.Units.KM);
+                    mAlarms.addAlarm(alarm);
+                }
+                catch (InvalidAlarmNameException e)
+                {
+                    // TODO Auto-generated catch block
+                    e.printStackTrace();
+                }
+                catch (AlarmAlreadyExistsException e)
+                {
+                    // TODO Auto-generated catch block
+                    e.printStackTrace();
+                }
+                catch (FileNotFoundException e)
+                {
+                    // TODO Auto-generated catch block
+                    e.printStackTrace();
+                }
+            }
         });
 
         // Handle the onClick event for the Manage Existing Alarms button.
@@ -136,7 +167,8 @@ public class Home extends Activity
      */
     private String[] getAllAlarmNames()
     {
-        // TODO Auto-generated method stub
-        return null;
+        return mAlarms.getAllAlarmNames();
     }
+
+    private Alarms mAlarms;
 }
