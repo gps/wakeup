@@ -1,0 +1,32 @@
+Task List for Wake Up!
+
+This is an informal task list. Written to help me keep track of what I've done 
+and what I still need to do.
+
+UI
+
+1.
+Goal: Write home screen.
+Status: Written with stubs for back-end elements.
+
+2.
+Goal: Write settings page.
+Status: Not started.
+
+3.
+Goal: Write help screen.
+Status: Not started.
+
+4.
+Goal: Write create new alarm screens.
+Status: Not started.
+
+
+BACK-END
+1.
+Goal: Persist known alarms and retrieve on startup.
+Status: Not started.
+
+2.
+Goal: Persist settings.
+Status: Not started. 
