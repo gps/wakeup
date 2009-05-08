@@ -34,7 +34,7 @@ public class Alarms
         {
             // If the file could not be read, no problem. Assume that there is
             // nothing in it, and start afresh.
-
+            alarmsContainer = new AlarmsContainer();
         }
         catch (InvalidAlarmStringException e)
         {
@@ -92,7 +92,6 @@ public class Alarms
 
         public AlarmsContainer(String acString) throws InvalidAlarmStringException
         {
-            String dbg = acString;
             for (String alarmStr : acString.split("\n"))
             {
                 Alarm alarm = new Alarm(alarmStr);
