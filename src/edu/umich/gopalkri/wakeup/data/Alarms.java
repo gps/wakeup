@@ -14,7 +14,7 @@ import edu.umich.gopalkri.wakeup.data.Alarm.InvalidAlarmStringException;
 
 public class Alarms
 {
-    public static final String ALARMS_FILE = "AlarmsFile.yaml";
+    public static final String ALARMS_FILE = "KnownAlarms.txt";
 
     public Alarms(Context ctx)
     {

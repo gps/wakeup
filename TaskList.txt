@@ -25,7 +25,7 @@ Status: Not started.
 BACK-END
 1.
 Goal: Persist known alarms and retrieve on startup.
-Status: Not started.
+Status: Done.
 
 2.
 Goal: Persist settings.
