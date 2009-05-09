@@ -3,6 +3,7 @@ package edu.umich.gopalkri.wakeup;
 import java.io.FileNotFoundException;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -73,7 +74,8 @@ public class Home extends Activity
             return true;
 
         case MENU_HELP:
-            // TODO: display Help Activity
+            Intent i = new Intent(this, Help.class);
+            startActivity(i);
             return true;
         }
         return super.onOptionsItemSelected(item);
