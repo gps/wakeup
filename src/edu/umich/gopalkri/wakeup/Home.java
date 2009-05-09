@@ -10,9 +10,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.LinearLayout;
 import android.widget.Spinner;
-import android.widget.TextView;
 import edu.umich.gopalkri.wakeup.data.Alarm;
 import edu.umich.gopalkri.wakeup.data.AlarmAlreadyExistsException;
 import edu.umich.gopalkri.wakeup.data.Alarms;
@@ -40,7 +38,6 @@ public class Home extends Activity
     public void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.home);
 
         mAlarms = new Alarms(this);
 
@@ -87,43 +84,32 @@ public class Home extends Activity
      */
     private void setupUI()
     {
+        String[] alarmNames = getAllAlarmNames();
+        if (alarmNames == null)
+        {
+            setupHomeNoAlarms();
+        }
+        else
+        {
+            setupHomeWithAlarms(alarmNames);
+        }
+    }
+
+    /**
+     * Sets up Home Screen layout with the ability to select an existing alarm, and create new
+     * alarms.
+     * @param alarmNames Names of all known alarms.
+     */
+    private void setupHomeWithAlarms(String[] alarmNames)
+    {
+        setContentView(R.layout.home_with_alarms);
+
         // Handle the onClick event for the Done button.
         Button done = (Button) findViewById(R.id.home_done);
         done.setOnClickListener(new View.OnClickListener()
         {
             public void onClick(View v)
             {}
-        });
-
-        // Handle the onClick event for the Create New Alarm button.
-        Button createNewAlarm = (Button) findViewById(R.id.home_create_new_alarm);
-        createNewAlarm.setOnClickListener(new View.OnClickListener()
-        {
-            public void onClick(View v)
-            {
-                // TESTING CODE
-                Alarm alarm;
-                try
-                {
-                    alarm = new Alarm("Alarm1", 2.0, 3.0, 4.0, Alarm.Units.KM);
-                    mAlarms.addAlarm(alarm);
-                }
-                catch (InvalidAlarmNameException e)
-                {
-                    // TODO Auto-generated catch block
-                    e.printStackTrace();
-                }
-                catch (AlarmAlreadyExistsException e)
-                {
-                    // TODO Auto-generated catch block
-                    e.printStackTrace();
-                }
-                catch (FileNotFoundException e)
-                {
-                    // TODO Auto-generated catch block
-                    e.printStackTrace();
-                }
-            }
         });
 
         // Handle the onClick event for the Manage Existing Alarms button.
@@ -134,43 +120,66 @@ public class Home extends Activity
             {}
         });
 
+        Button createNewAlarm = (Button) findViewById(R.id.home_with_alarms_create_new_alarm);
+        createNewAlarm.setOnClickListener(createNewAlarmListener);
+
         // Setup the Existing Alarms spinner.
         Spinner existingAlarms = (Spinner) findViewById(R.id.home_existing_alarms_spinner);
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,
+                android.R.layout.simple_spinner_item, alarmNames);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        existingAlarms.setAdapter(adapter);
+    }
 
-        LinearLayout alarmsExistLayout = (LinearLayout) findViewById(R.id.home_alarms_exist_layout);
-        TextView noAlarmsExist = (TextView) findViewById(R.id.home_no_alarms_exist);
-        String[] alarmNames = getAllAlarmNames();
-        // If there are existing alarms, the layout that has UI elements to set/manage existing
-        // alarms must be visible and enabled. If not, they must be disabled.
-        if (alarmNames != null)
-        {
-            ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,
-                    android.R.layout.simple_spinner_item, alarmNames);
-            adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-            existingAlarms.setAdapter(adapter);
+    /**
+     * Sets up Home Screen layout with only the ability to create a new alarm.
+     */
+    private void setupHomeNoAlarms()
+    {
+        setContentView(R.layout.home_no_alarms);
 
-            alarmsExistLayout.setEnabled(true);
-            alarmsExistLayout.setVisibility(View.VISIBLE);
-            noAlarmsExist.setEnabled(false);
-            noAlarmsExist.setVisibility(View.INVISIBLE);
-        }
-        else
-        {
-            alarmsExistLayout.setEnabled(false);
-            alarmsExistLayout.setVisibility(View.INVISIBLE);
-            noAlarmsExist.setEnabled(true);
-            noAlarmsExist.setVisibility(View.VISIBLE);
-        }
+        Button createNewAlarm = (Button) findViewById(R.id.home_no_alarms_create_new_alarm);
+        createNewAlarm.setOnClickListener(createNewAlarmListener);
     }
 
     /**
      * Fetches names of all existing alarms.
+     *
      * @return Names of all existing alarms.
      */
     private String[] getAllAlarmNames()
     {
         return mAlarms.getAllAlarmNames();
     }
+
+    private View.OnClickListener createNewAlarmListener = new View.OnClickListener()
+    {
+        public void onClick(View v)
+        {
+            // TODO remove TESTING CODE and add actual handling code.
+            Alarm alarm;
+            try
+            {
+                alarm = new Alarm("Alarm1", 2.0, 3.0, 4.0, Alarm.Units.KM);
+                mAlarms.addAlarm(alarm);
+            }
+            catch (InvalidAlarmNameException e)
+            {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+            }
+            catch (AlarmAlreadyExistsException e)
+            {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+            }
+            catch (FileNotFoundException e)
+            {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+            }
+        }
+    };
 
     private Alarms mAlarms;
 }
