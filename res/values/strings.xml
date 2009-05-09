@@ -14,4 +14,11 @@
 
     <string name="help_text">Instructions:\n\nUse the Home Screen to set an alarm. You can either select an alarm you have already specified, or create a new one. To set an existing alarm, select it from the spinner and hit Done. To create a new alarm, hit Create New Alarm. This will pop up the Create Alarm screen. Enter the name, radius and units of measurement for the radius. You now have to pick the destination. You can do this in one of two ways. First, you can pick the destination on the map. To do this hit Pick From Map. That will pop up a map allowing you to select a point by touching the screen. A marker will be drawn on the point you choose. If you make a mistake, just correct it by tapping on another point. The old one will disappear. The second way to specify is to specify a street address. Wake Up! will evaluate the street address using Google Maps, and if it is unable to resolve it correctly, you will notified and asked to enter a new address.\n\nAbout:\n\nWakeUp! was written by Gopalkrishna Sharma. Email: gopalkri@umich.edu .For more information, visit the WakeUp website at: http://github.com/gps/wakeup/tree/master</string>
 
+    <string name="edit_alarm_alarm_name">Alarm Name</string>
+    <string name="edit_alarm_enter_radius">Enter proximity radius for destination:</string>
+    <string name="edit_alarm_pick_from_map">Pick Destination From Map</string>
+    <string name="edit_alarm_view_on_map">View Destination On Map</string>
+    <string name="edit_alarm_or">Or</string>
+    <string name="edit_alarm_search_address">Enter Address To Search For:</string>
+
 </resources>

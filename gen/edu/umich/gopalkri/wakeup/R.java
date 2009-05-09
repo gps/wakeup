@@ -14,21 +14,34 @@ public final class R {
         public static final int icon=0x7f020000;
     }
     public static final class id {
-        public static final int help_text=0x7f050000;
-        public static final int home_done=0x7f050004;
-        public static final int home_existing_alarms_spinner=0x7f050003;
-        public static final int home_manage_existing_alarms=0x7f050005;
-        public static final int home_no_alarms_create_new_alarm=0x7f050002;
-        public static final int home_no_alarms_exist=0x7f050001;
-        public static final int home_with_alarms_create_new_alarm=0x7f050006;
+        public static final int edit_alarm_address_search=0x7f050005;
+        public static final int edit_alarm_alarm_name=0x7f050000;
+        public static final int edit_alarm_pick_from_map=0x7f050003;
+        public static final int edit_alarm_radius=0x7f050001;
+        public static final int edit_alarm_search_layout=0x7f050004;
+        public static final int edit_alarm_units_spinner=0x7f050002;
+        public static final int help_text=0x7f050006;
+        public static final int home_done=0x7f05000a;
+        public static final int home_existing_alarms_spinner=0x7f050009;
+        public static final int home_manage_existing_alarms=0x7f05000b;
+        public static final int home_no_alarms_create_new_alarm=0x7f050008;
+        public static final int home_no_alarms_exist=0x7f050007;
+        public static final int home_with_alarms_create_new_alarm=0x7f05000c;
     }
     public static final class layout {
-        public static final int help=0x7f030000;
-        public static final int home_no_alarms=0x7f030001;
-        public static final int home_with_alarms=0x7f030002;
+        public static final int edit_alarm=0x7f030000;
+        public static final int help=0x7f030001;
+        public static final int home_no_alarms=0x7f030002;
+        public static final int home_with_alarms=0x7f030003;
     }
     public static final class string {
         public static final int app_name=0x7f040000;
+        public static final int edit_alarm_alarm_name=0x7f04000b;
+        public static final int edit_alarm_enter_radius=0x7f04000c;
+        public static final int edit_alarm_or=0x7f04000f;
+        public static final int edit_alarm_pick_from_map=0x7f04000d;
+        public static final int edit_alarm_search_address=0x7f040010;
+        public static final int edit_alarm_view_on_map=0x7f04000e;
         public static final int help_text=0x7f04000a;
         public static final int home_create_new_alarm=0x7f040005;
         public static final int home_done=0x7f040004;
