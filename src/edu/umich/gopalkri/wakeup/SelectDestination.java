@@ -8,7 +8,6 @@ import android.location.LocationManager;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.LinearLayout;
 
 import com.google.android.maps.GeoPoint;
 import com.google.android.maps.MapActivity;
@@ -32,6 +31,7 @@ public class SelectDestination extends MapActivity
     protected void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
+        setContentView(R.layout.select_destination);
 
         MapView mapView = (MapView) findViewById(R.id.select_destination_mapview);
         mapView.setSatellite(true);
@@ -43,18 +43,22 @@ public class SelectDestination extends MapActivity
             mapView.getController().setZoom(DEFAULT_ZOOM);
         }
 
-        LinearLayout zoomLayout = (LinearLayout) findViewById(R.id.select_destination_zoomview);
-        zoomLayout.addView(mapView.getZoomControls());
+        //LinearLayout zoomLayout = (LinearLayout) findViewById(R.id.select_destination_zoomview);
+        //zoomLayout.addView(mapView.getZoomControls());
+        mapView.setBuiltInZoomControls(true);
 
         mMyLocationOverlay = new MyLocationOverlay(this, mapView);
         mMyLocationOverlay.enableMyLocation();
         mapView.getOverlays().add(mMyLocationOverlay);
 
         GeoPoint plotLocation = null;
-        String plotLocationStr = savedInstanceState.getString(LOCATION_STRING);
-        if (plotLocationStr != null)
+        if (savedInstanceState != null)
         {
-            plotLocation = Utilities.decodeLocationString(plotLocationStr);
+            String plotLocationStr = savedInstanceState.getString(LOCATION_STRING);
+            if (plotLocationStr != null)
+            {
+                plotLocation = Utilities.decodeLocationString(plotLocationStr);
+            }
         }
         Drawable marker = getResources().getDrawable(R.drawable.map_pin_32);
         marker.setBounds(0, 0, marker.getIntrinsicWidth(), marker.getIntrinsicHeight());
@@ -128,7 +132,7 @@ public class SelectDestination extends MapActivity
             Bundle bundle = new Bundle();
             bundle.putString(LOCATION_STRING, locStr);
             i.putExtras(bundle);
-            setResult(RESULT_OK);
+            setResult(RESULT_OK, i);
             finish();
             return true;
         }

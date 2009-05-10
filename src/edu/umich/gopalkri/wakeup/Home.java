@@ -41,6 +41,16 @@ public class Home extends Activity
     }
 
     /**
+     * @see android.app.Activity#onResume()
+     */
+    @Override
+    protected void onResume()
+    {
+        super.onResume();
+        setupUI();
+    }
+
+    /**
      * @see android.app.Activity#onCreateOptionsMenu(android.view.Menu)
      */
     @Override

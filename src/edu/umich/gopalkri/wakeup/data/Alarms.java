@@ -19,6 +19,11 @@ public class Alarms
     public Alarms(Context ctx)
     {
         this.ctx = ctx;
+        initFromFile();
+    }
+
+    public void initFromFile()
+    {
         try
         {
             alarmsContainer = new AlarmsContainer(convertInputStreamToString(ctx
@@ -46,6 +51,7 @@ public class Alarms
 
     public Alarm getAlarm(String name)
     {
+        initFromFile();
         return alarmsContainer.getAlarm(name);
     }
 
@@ -68,6 +74,7 @@ public class Alarms
 
     public String[] getAllAlarmNames()
     {
+        initFromFile();
         return alarmsContainer.getAllAlarmNames();
     }
 

@@ -46,18 +46,27 @@ public class EditAlarm extends Activity
         mAlarms = new Alarms(this);
         mSelectDestinationIntent = new Intent(this, SelectDestination.class);
 
-        String alarmName = savedInstanceState.getString(ALARM_NAME);
-        if (alarmName == null)
+        if (savedInstanceState != null)
+        {
+            String alarmName = savedInstanceState.getString(ALARM_NAME);
+            if (alarmName != null)
+            {
+                mThisAlarm = mAlarms.getAlarm(alarmName);
+                mNewAlarm = false;
+                mLocationSet = true;
+            }
+            else
+            {
+                mThisAlarm = new Alarm();
+                mNewAlarm = true;
+                mLocationSet = false;
+            }
+        }
+        else
         {
             mThisAlarm = new Alarm();
             mNewAlarm = true;
             mLocationSet = false;
-        }
-        else
-        {
-            mThisAlarm = mAlarms.getAlarm(alarmName);
-            mNewAlarm = false;
-            mLocationSet = true;
         }
 
         setupUI();

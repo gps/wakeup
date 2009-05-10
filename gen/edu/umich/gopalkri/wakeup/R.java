@@ -35,7 +35,6 @@ public final class R {
         public static final int home_with_alarms_create_new_alarm=0x7f06000e;
         public static final int mainlayout=0x7f06000f;
         public static final int select_destination_mapview=0x7f060010;
-        public static final int select_destination_zoomview=0x7f060011;
     }
     public static final class layout {
         public static final int edit_alarm=0x7f030000;
