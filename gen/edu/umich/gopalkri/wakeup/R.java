@@ -15,6 +15,7 @@ public final class R {
     }
     public static final class drawable {
         public static final int icon=0x7f020000;
+        public static final int map_pin_32=0x7f020001;
     }
     public static final class id {
         public static final int edit_alarm_address_search=0x7f060005;
