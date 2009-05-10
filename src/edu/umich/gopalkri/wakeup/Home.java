@@ -1,7 +1,5 @@
 package edu.umich.gopalkri.wakeup;
 
-import java.io.FileNotFoundException;
-
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
@@ -11,10 +9,7 @@ import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.Spinner;
-import edu.umich.gopalkri.wakeup.data.Alarm;
-import edu.umich.gopalkri.wakeup.data.AlarmAlreadyExistsException;
 import edu.umich.gopalkri.wakeup.data.Alarms;
-import edu.umich.gopalkri.wakeup.data.InvalidAlarmNameException;
 
 /**
  * The Activity that represents the "Home" screen.
@@ -40,6 +35,7 @@ public class Home extends Activity
         super.onCreate(savedInstanceState);
 
         mAlarms = new Alarms(this);
+        mEditAlarmIntent = new Intent(this, EditAlarm.class);
 
         setupUI();
     }
@@ -156,30 +152,11 @@ public class Home extends Activity
     {
         public void onClick(View v)
         {
-            // TODO remove TESTING CODE and add actual handling code.
-            Alarm alarm;
-            try
-            {
-                alarm = new Alarm("Alarm1", 2.0, 3.0, 4.0, Alarm.Units.KM);
-                mAlarms.addAlarm(alarm);
-            }
-            catch (InvalidAlarmNameException e)
-            {
-                // TODO Auto-generated catch block
-                e.printStackTrace();
-            }
-            catch (AlarmAlreadyExistsException e)
-            {
-                // TODO Auto-generated catch block
-                e.printStackTrace();
-            }
-            catch (FileNotFoundException e)
-            {
-                // TODO Auto-generated catch block
-                e.printStackTrace();
-            }
+            startActivity(mEditAlarmIntent);
         }
     };
 
     private Alarms mAlarms;
+
+    private Intent mEditAlarmIntent;
 }

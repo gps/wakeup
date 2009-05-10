@@ -20,5 +20,8 @@
     <string name="edit_alarm_view_on_map">View Destination On Map</string>
     <string name="edit_alarm_or">Or</string>
     <string name="edit_alarm_search_address">Enter Address To Search For:</string>
+    <string name="edit_alarm_search_btn">Search</string>
+	<string name="edit_alarm_save">Save</string>
+    <string name="edit_alarm_units_spinner_prompt">Pick Unit of Measurement For Proximity Radius</string>
 
 </resources>

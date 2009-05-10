@@ -1,0 +1,10 @@
+<resources>
+
+    <string-array name="units">
+        <item>KM</item>
+        <item>Meters</item>
+        <item>Miles</item>
+        <item>Feet</item>
+    </string-array>
+
+</resources>

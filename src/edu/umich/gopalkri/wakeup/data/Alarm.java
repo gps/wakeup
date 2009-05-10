@@ -4,7 +4,7 @@ import edu.umich.gopalkri.wakeup.WakeUpException;
 
 public class Alarm implements java.io.Serializable
 {
-    private static final String FIELD_SEPARATOR = "@@@@@";
+    public static final String FIELD_SEPARATOR = "@@@@@";
 
     public enum Units
     {
@@ -52,6 +52,9 @@ public class Alarm implements java.io.Serializable
          */
         private static final long serialVersionUID = 8770589743483321463L;
     }
+
+    public Alarm()
+    {}
 
     public Alarm(String alarmStr) throws InvalidAlarmStringException
     {
@@ -112,8 +115,12 @@ public class Alarm implements java.io.Serializable
         return name;
     }
 
-    public void setName(String name)
+    public void setName(String name) throws InvalidAlarmNameException
     {
+        if (name.contains(FIELD_SEPARATOR))
+        {
+            throw new InvalidAlarmNameException();
+        }
         this.name = name;
     }
 

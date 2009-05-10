@@ -58,6 +58,14 @@ public class Alarms
         pw.close();
     }
 
+    public void updateAlarm(Alarm alarm)
+    {
+    }
+
+    public void deleteAlarm(Alarm alarm)
+    {
+    }
+
     public String[] getAllAlarmNames()
     {
         return alarmsContainer.getAllAlarmNames();
