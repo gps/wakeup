@@ -3,12 +3,17 @@ package edu.umich.gopalkri.wakeup;
 import java.io.FileNotFoundException;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
+import android.widget.Toast;
+
+import com.google.android.maps.GeoPoint;
+
 import edu.umich.gopalkri.wakeup.data.Alarm;
 import edu.umich.gopalkri.wakeup.data.AlarmAlreadyExistsException;
 import edu.umich.gopalkri.wakeup.data.Alarms;
@@ -19,12 +24,15 @@ public class EditAlarm extends Activity
 {
     public static final String ALARM_NAME = "ALARM_NAME";
 
+    private static final int SELECT_DESTINATION = 1;
+
     private static final String RADIUS_COULD_NOT_BE_PARSED = "The proximity radius you entered could not be parsed as a number. You need to enter a number (can be a decimal). Please fix this and try again.";
     private static final String INVALID_ALARM_NAME = "The alarm name you supplied is invalid. Alarm names cannot contain the character sequence: \""
             + Alarm.FIELD_SEPARATOR
             + "\" (without the \"). Please enter another name and try again.";
     private static final String ALARM_ALREADY_EXISTS = "An alarm with this name already exists. Please pick another name, or delete the existing alarm first and then try again.";
     private static final String LOCATION_NOT_SET = "You have not set a location for this alarm. Please do so and try again.";
+    private static final String LOCATION_SET = "The destination you picked is: ";
 
     /**
      * @see android.app.Activity#onCreate(android.os.Bundle)
@@ -36,6 +44,7 @@ public class EditAlarm extends Activity
         setContentView(R.layout.edit_alarm);
 
         mAlarms = new Alarms(this);
+        mSelectDestinationIntent = new Intent(this, SelectDestination.class);
 
         String alarmName = savedInstanceState.getString(ALARM_NAME);
         if (alarmName == null)
@@ -52,6 +61,38 @@ public class EditAlarm extends Activity
         }
 
         setupUI();
+    }
+
+    /**
+     * @see android.app.Activity#onActivityResult(int, int,
+     *      android.content.Intent)
+     */
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data)
+    {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        Bundle bundle = data.getExtras();
+
+        switch (requestCode)
+        {
+        case SELECT_DESTINATION:
+            String locStr = bundle.getString(SelectDestination.LOCATION_STRING);
+            if (locStr == null)
+            {
+                // This should not happen.
+                throw new RuntimeException("SelectDestination returned a null location string.");
+            }
+            GeoPoint selectedLocation = Utilities.decodeLocationString(locStr);
+            Double latitude = Utilities.getLatitudeFromGeoPoint(selectedLocation);
+            Double longitude = Utilities.getLongitudeFromGeoPoint(selectedLocation);
+            mThisAlarm.setLatitude(latitude);
+            mThisAlarm.setLongitude(longitude);
+            mLocationSet = true;
+            Toast toast = Toast.makeText(this, LOCATION_SET + latitude.toString() + ", "
+                    + longitude.toString() + ".", Toast.LENGTH_LONG);
+            toast.show();
+        }
     }
 
     private void setupUI()
@@ -103,7 +144,8 @@ public class EditAlarm extends Activity
                 catch (FileNotFoundException ex)
                 {
                     // Unexpected error. This should not happen.
-                    throw new RuntimeException("Got a FileNotFoundException when trying to create alarm.");
+                    throw new RuntimeException(
+                            "Got a FileNotFoundException when trying to create alarm.");
                 }
                 catch (AlarmAlreadyExistsException e)
                 {
@@ -123,6 +165,7 @@ public class EditAlarm extends Activity
         {
             public void onClick(View v)
             {
+                startActivityForResult(mSelectDestinationIntent, SELECT_DESTINATION);
             }
         });
         if (mNewAlarm)
@@ -183,6 +226,8 @@ public class EditAlarm extends Activity
     private Spinner mUnitsSpinner;
 
     private Alarms mAlarms;
+
+    private Intent mSelectDestinationIntent;
 
     private Alarm mThisAlarm;
     private boolean mNewAlarm;
