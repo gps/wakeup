@@ -24,4 +24,6 @@
 	<string name="edit_alarm_save">Save</string>
     <string name="edit_alarm_units_spinner_prompt">Pick Unit of Measurement For Proximity Radius</string>
 
+    <string name="select_destination_done">Done</string>
+
 </resources>

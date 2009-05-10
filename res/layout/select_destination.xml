@@ -5,16 +5,16 @@
     android:layout_width="fill_parent"
     android:layout_height="fill_parent" >
 
-    <com.google.android.maps.MapView android:id="@+id/mapview"
+    <com.google.android.maps.MapView android:id="@+id/select_destination_mapview"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
         android:clickable="true"
         android:apiKey="0yD9Zn4F6OhkCi6i62fNZXHWnW4ZVEVs3lZvifg" />
 
-    <LinearLayout android:id="@+id/zoomview"
+    <LinearLayout android:id="@+id/select_destination_zoomview"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignBottom="@id/mapview"
+        android:layout_alignBottom="@id/select_destination_mapview"
         android:layout_centerHorizontal="true" />
 
 </RelativeLayout>
