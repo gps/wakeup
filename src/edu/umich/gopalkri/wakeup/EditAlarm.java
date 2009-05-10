@@ -27,6 +27,7 @@ public class EditAlarm extends Activity
             + Alarm.FIELD_SEPARATOR
             + "\" (without the \"). Please enter another name and try again.";
     private static final String ALARM_ALREADY_EXISTS = "An alarm with this name already exists. Please pick another name, or delete the existing alarm first and then try again.";
+    private static final String LOCATION_NOT_SET = "You have not set a location for this alarm. Please do so and try again.";
 
     /**
      * @see android.app.Activity#onCreate(android.os.Bundle)
@@ -44,11 +45,13 @@ public class EditAlarm extends Activity
         {
             mThisAlarm = new Alarm();
             mNewAlarm = true;
+            mLocationSet = false;
         }
         else
         {
             mThisAlarm = mAlarms.getAlarm(alarmName);
             mNewAlarm = false;
+            mLocationSet = true;
         }
 
         setupUI();
@@ -82,6 +85,11 @@ public class EditAlarm extends Activity
         {
             public void onClick(View v)
             {
+                if (!mLocationSet)
+                {
+                    reportError(ERROR, LOCATION_NOT_SET);
+                    return;
+                }
                 updateAlarm();
                 try
                 {
@@ -191,4 +199,5 @@ public class EditAlarm extends Activity
 
     private Alarm mThisAlarm;
     private boolean mNewAlarm;
+    private boolean mLocationSet;
 }
