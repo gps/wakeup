@@ -1,6 +1,7 @@
 package edu.umich.gopalkri.wakeup;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.location.Location;
 import android.location.LocationManager;
@@ -22,31 +23,7 @@ public class SelectDestination extends MapActivity
 
     private static final int MENU_DONE = Menu.FIRST;
 
-    private static final String LOCATION_ENCODE_SEPARATOR = "Z";
-
-    public static String encodeLocation(Double latitude, Double longitude)
-    {
-        return latitude.toString() + LOCATION_ENCODE_SEPARATOR + longitude.toString();
-    }
-
-    private static GeoPoint decodeLocationString(String locationString)
-    {
-        String[] split = locationString.split(LOCATION_ENCODE_SEPARATOR);
-        if (split.length != 2)
-        {
-            return null;
-        }
-        try
-        {
-            Double latitude = Double.parseDouble(split[0]) * 1E6;
-            Double longitude = Double.parseDouble(split[1]) * 1E6;
-            return new GeoPoint(latitude.intValue(), longitude.intValue());
-        }
-        catch (NumberFormatException ex)
-        {
-            return null;
-        }
-    }
+    private static final String LOCATION_NOT_SET = "You have not selected a location yet. Please do so by tapping anywhere on the map and try again.";
 
     /**
      * @see com.google.android.maps.MapActivity#onCreate(android.os.Bundle)
@@ -77,7 +54,7 @@ public class SelectDestination extends MapActivity
         String plotLocationStr = savedInstanceState.getString(LOCATION_STRING);
         if (plotLocationStr != null)
         {
-            plotLocation = decodeLocationString(plotLocationStr);
+            plotLocation = Utilities.decodeLocationString(plotLocationStr);
         }
         Drawable marker = getResources().getDrawable(R.drawable.map_pin_32);
         marker.setBounds(0, 0, marker.getIntrinsicWidth(), marker.getIntrinsicHeight());
@@ -140,7 +117,19 @@ public class SelectDestination extends MapActivity
         switch (item.getItemId())
         {
         case MENU_DONE:
-            // TODO validate, setResult(OK) and finish
+            GeoPoint selectedLocation = DestinationOverlay.getSelectedLocation();
+            if (selectedLocation == null)
+            {
+                Utilities.reportError(this, Utilities.ERROR, LOCATION_NOT_SET);
+                return true;
+            }
+            String locStr = Utilities.encodeLocation(selectedLocation);
+            Intent i = new Intent();
+            Bundle bundle = new Bundle();
+            bundle.putString(LOCATION_STRING, locStr);
+            i.putExtras(bundle);
+            setResult(RESULT_OK);
+            finish();
             return true;
         }
         return super.onOptionsItemSelected(item);

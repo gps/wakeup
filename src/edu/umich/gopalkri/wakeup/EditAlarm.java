@@ -3,8 +3,6 @@ package edu.umich.gopalkri.wakeup;
 import java.io.FileNotFoundException;
 
 import android.app.Activity;
-import android.app.AlertDialog;
-import android.content.DialogInterface;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ArrayAdapter;
@@ -21,7 +19,6 @@ public class EditAlarm extends Activity
 {
     public static final String ALARM_NAME = "ALARM_NAME";
 
-    private static final String ERROR = "Error!";
     private static final String RADIUS_COULD_NOT_BE_PARSED = "The proximity radius you entered could not be parsed as a number. You need to enter a number (can be a decimal). Please fix this and try again.";
     private static final String INVALID_ALARM_NAME = "The alarm name you supplied is invalid. Alarm names cannot contain the character sequence: \""
             + Alarm.FIELD_SEPARATOR
@@ -87,7 +84,8 @@ public class EditAlarm extends Activity
             {
                 if (!mLocationSet)
                 {
-                    reportError(ERROR, LOCATION_NOT_SET);
+                    // FIXME Check that EditAlarm.this actually works.
+                    Utilities.reportError(EditAlarm.this, Utilities.ERROR, LOCATION_NOT_SET);
                     return;
                 }
                 updateAlarm();
@@ -110,7 +108,8 @@ public class EditAlarm extends Activity
                 catch (AlarmAlreadyExistsException e)
                 {
                     // An alarm with this name already exists.
-                    reportError(ERROR, ALARM_ALREADY_EXISTS);
+                    // FIXME Check that EditAlarm.this actually works.
+                    Utilities.reportError(EditAlarm.this, Utilities.ERROR, ALARM_ALREADY_EXISTS);
                     return;
                 }
                 setResult(RESULT_OK);
@@ -123,7 +122,8 @@ public class EditAlarm extends Activity
         pickFromMap.setOnClickListener(new View.OnClickListener()
         {
             public void onClick(View v)
-            {}
+            {
+            }
         });
         if (mNewAlarm)
         {
@@ -152,7 +152,7 @@ public class EditAlarm extends Activity
         }
         catch (InvalidAlarmNameException ex)
         {
-            reportError(ERROR, INVALID_ALARM_NAME);
+            Utilities.reportError(this, Utilities.ERROR, INVALID_ALARM_NAME);
             return;
         }
         double radius;
@@ -162,7 +162,7 @@ public class EditAlarm extends Activity
         }
         catch (NumberFormatException ex)
         {
-            reportError(ERROR, RADIUS_COULD_NOT_BE_PARSED);
+            Utilities.reportError(this, Utilities.ERROR, RADIUS_COULD_NOT_BE_PARSED);
             return;
         }
         mThisAlarm.setRadius(radius);
@@ -175,19 +175,6 @@ public class EditAlarm extends Activity
             // This should not happen.
             throw new RuntimeException("Units spinner and enum Units are out of sync.");
         }
-    }
-
-    private void reportError(String title, String message)
-    {
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setTitle(title);
-        builder.setMessage(message);
-        builder.setPositiveButton("OK", new DialogInterface.OnClickListener()
-        {
-            public void onClick(DialogInterface dialog, int whichButton)
-            {}
-        });
-        builder.show();
     }
 
     private EditText mETAlarmName;
