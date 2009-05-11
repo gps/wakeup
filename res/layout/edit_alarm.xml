@@ -66,14 +66,22 @@
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content" />
 
-                <EditText android:id="@+id/edit_alarm_address_search"
-                    android:layout_width="fill_parent"
-                    android:layout_height="wrap_content" />
+				<RelativeLayout android:layout_width="fill_parent"
+					android:layout_height="wrap_content" >
 
-				<Button android:id="@+id/edit_alarm_search_btn"
-					android:layout_width="fill_parent"
-					android:layout_height="wrap_content"
-					android:text="@string/edit_alarm_search_btn" />
+	                <EditText android:id="@+id/edit_alarm_address_search"
+	                    android:layout_width="fill_parent"
+	                    android:layout_height="wrap_content" />
+
+					<Button android:id="@+id/edit_alarm_search_btn"
+						android:layout_width="wrap_content"
+						android:layout_height="wrap_content"
+						android:layout_below="@id/edit_alarm_address_search"
+						android:layout_alignParentRight="true"
+		                android:layout_marginLeft="10dip"
+						android:text="@string/edit_alarm_search_btn" />
+				
+				</RelativeLayout>
 
             </LinearLayout>
 
