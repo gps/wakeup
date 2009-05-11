@@ -19,7 +19,11 @@ Status: Done.
 
 4.
 Goal: Write create new alarm screens.
-Status: In progress - search for address needs to be implemented.
+Status: Done.
+
+5.
+Goal: Write manage existing alarms screen.
+Status: Not started.
 
 
 BACK-END
