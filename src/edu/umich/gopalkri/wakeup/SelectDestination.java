@@ -22,9 +22,10 @@ public class SelectDestination extends MapActivity
     private static final int DEFAULT_ZOOM = 15;
 
     private static final int MENU_DONE = Menu.FIRST;
+    private static final int MENU_INSTRUCTIONS = Menu.FIRST + 1;
 
     private static final String LOCATION_NOT_SET = "You have not selected a location yet. Please do so by tapping anywhere on the map and try again.";
-    private static final String INSTRUCTIONS = "Tap any point on the map to select it. It will be marked with a marker. To change the point, simply tap somewhere else. You can pan and zoom the map in the standard way.";
+    private static final String INSTRUCTIONS = "Tap any point on the map to select it. It will be marked with a marker. To change the point, simply tap somewhere else. You can pan and zoom the map in the standard way. When you are done, hit Done from the Menu options.";
 
     private DestinationOverlay mDestinationOverlay;
 
@@ -123,6 +124,7 @@ public class SelectDestination extends MapActivity
     {
         boolean result = super.onCreateOptionsMenu(menu);
         menu.add(Menu.NONE, MENU_DONE, Menu.NONE, R.string.select_destination_done);
+        menu.add(Menu.NONE, MENU_INSTRUCTIONS, Menu.NONE, R.string.select_destination_instructions);
         return result;
     }
 
@@ -138,7 +140,7 @@ public class SelectDestination extends MapActivity
             GeoPoint selectedLocation = mDestinationOverlay.getSelectedLocation();
             if (selectedLocation == null)
             {
-                Utilities.createErrorDialog(this, Utilities.ERROR, LOCATION_NOT_SET).show();
+                Utilities.createAlertDialog(this, Utilities.ERROR, LOCATION_NOT_SET).show();
                 return true;
             }
             String locStr = Utilities.encodeLocation(selectedLocation);
@@ -149,6 +151,8 @@ public class SelectDestination extends MapActivity
             setResult(RESULT_OK, i);
             finish();
             return true;
+        case MENU_INSTRUCTIONS:
+            Utilities.createAlertDialog(this, "Instructions", INSTRUCTIONS).show();
         }
         return super.onOptionsItemSelected(item);
     }

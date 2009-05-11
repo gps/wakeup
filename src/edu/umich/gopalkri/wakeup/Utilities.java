@@ -10,7 +10,7 @@ public class Utilities
 {
     public static final String ERROR = "ERROR!";
 
-    public static AlertDialog createErrorDialog(Context ctx, String title, String message)
+    public static AlertDialog createAlertDialog(Context ctx, String title, String message)
     {
         AlertDialog dialog = new AlertDialog.Builder(ctx).create();
         dialog.setTitle(title);

@@ -89,6 +89,10 @@ public class EditAlarm extends Activity
     {
         super.onActivityResult(requestCode, resultCode, data);
 
+        if (data == null) // Destination was not selected.
+        {
+            return;
+        }
         Bundle bundle = data.getExtras();
 
         switch (requestCode)
@@ -134,7 +138,7 @@ public class EditAlarm extends Activity
                 if (loc == null)
                 {
                     // FIXME CHeck that EditAlarm.this actually works.
-                    Utilities.createErrorDialog(EditAlarm.this, Utilities.ERROR, UNABLE_TO_GEOCODE)
+                    Utilities.createAlertDialog(EditAlarm.this, Utilities.ERROR, UNABLE_TO_GEOCODE)
                             .show();
                     return;
                 }
@@ -150,13 +154,6 @@ public class EditAlarm extends Activity
         {
             public void onClick(View v)
             {
-                if (!mLocationSet)
-                {
-                    // FIXME Check that EditAlarm.this actually works.
-                    Utilities.createErrorDialog(EditAlarm.this, Utilities.ERROR, LOCATION_NOT_SET)
-                            .show();
-                    return;
-                }
                 if (!updateAlarm())
                 {
                     return;
@@ -182,7 +179,7 @@ public class EditAlarm extends Activity
                 {
                     // An alarm with this name already exists.
                     // FIXME Check that EditAlarm.this actually works.
-                    Utilities.createErrorDialog(EditAlarm.this, Utilities.ERROR,
+                    Utilities.createAlertDialog(EditAlarm.this, Utilities.ERROR,
                             ALARM_ALREADY_EXISTS).show();
                     return;
                 }
@@ -246,10 +243,17 @@ public class EditAlarm extends Activity
 
     private boolean updateAlarm()
     {
+        if (!mLocationSet)
+        {
+            // FIXME Check that EditAlarm.this actually works.
+            Utilities.createAlertDialog(this, Utilities.ERROR, LOCATION_NOT_SET)
+                    .show();
+            return false;
+        }
         String alarmName = mETAlarmName.getText().toString().trim();
         if (alarmName.compareTo("") == 0)
         {
-            Utilities.createErrorDialog(this, Utilities.ERROR, NO_ALARM_NAME).show();
+            Utilities.createAlertDialog(this, Utilities.ERROR, NO_ALARM_NAME).show();
             return false;
         }
         try
@@ -258,13 +262,13 @@ public class EditAlarm extends Activity
         }
         catch (InvalidAlarmNameException ex)
         {
-            Utilities.createErrorDialog(this, Utilities.ERROR, INVALID_ALARM_NAME).show();
+            Utilities.createAlertDialog(this, Utilities.ERROR, INVALID_ALARM_NAME).show();
             return false;
         }
         String radiusStr = mETAlarmRadius.getText().toString().trim();
         if (radiusStr.compareTo("") == 0)
         {
-            Utilities.createErrorDialog(this, Utilities.ERROR, NO_RADIUS);
+            Utilities.createAlertDialog(this, Utilities.ERROR, NO_RADIUS);
             return false;
         }
         double radius;
@@ -274,7 +278,7 @@ public class EditAlarm extends Activity
         }
         catch (NumberFormatException ex)
         {
-            Utilities.createErrorDialog(this, Utilities.ERROR, RADIUS_COULD_NOT_BE_PARSED).show();
+            Utilities.createAlertDialog(this, Utilities.ERROR, RADIUS_COULD_NOT_BE_PARSED).show();
             return false;
         }
         mThisAlarm.setRadius(radius);
