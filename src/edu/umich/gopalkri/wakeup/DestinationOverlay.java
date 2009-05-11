@@ -1,6 +1,5 @@
 package edu.umich.gopalkri.wakeup;
 
-import android.graphics.Canvas;
 import android.graphics.drawable.Drawable;
 
 import com.google.android.maps.GeoPoint;
@@ -10,9 +9,9 @@ import com.google.android.maps.OverlayItem;
 
 public class DestinationOverlay extends ItemizedOverlay<OverlayItem>
 {
-    private static OverlayItem currentItem = null;
+    private OverlayItem currentItem = null;
 
-    public static GeoPoint getSelectedLocation()
+    public GeoPoint getSelectedLocation()
     {
         if (currentItem == null)
         {
@@ -21,31 +20,14 @@ public class DestinationOverlay extends ItemizedOverlay<OverlayItem>
         return currentItem.getPoint();
     }
 
-    private Drawable mMarker;
-
-    public DestinationOverlay(Drawable defaultMarker, GeoPoint gp, boolean reset)
+    public DestinationOverlay(Drawable defaultMarker, GeoPoint gp)
     {
-        super(defaultMarker);
-        mMarker = defaultMarker;
-        if (reset)
-        {
-            currentItem = null;
-        }
+        super(boundCenterBottom(defaultMarker));
         if (gp != null)
         {
             currentItem = new OverlayItem(gp, "", "");
         }
         populate();
-    }
-
-    /**
-     * @see com.google.android.maps.ItemizedOverlay#draw(android.graphics.Canvas, com.google.android.maps.MapView, boolean)
-     */
-    @Override
-    public void draw(Canvas canvas, MapView mapView, boolean shadow)
-    {
-        super.draw(canvas, mapView, shadow);
-        boundCenterBottom(mMarker);
     }
 
     /**

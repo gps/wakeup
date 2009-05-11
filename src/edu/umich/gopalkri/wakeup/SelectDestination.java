@@ -24,6 +24,8 @@ public class SelectDestination extends MapActivity
 
     private static final String LOCATION_NOT_SET = "You have not selected a location yet. Please do so by tapping anywhere on the map and try again.";
 
+    private DestinationOverlay mDestinationOverlay;
+
     /**
      * @see com.google.android.maps.MapActivity#onCreate(android.os.Bundle)
      */
@@ -62,8 +64,8 @@ public class SelectDestination extends MapActivity
         }
         Drawable marker = getResources().getDrawable(R.drawable.map_pin_32);
         marker.setBounds(0, 0, marker.getIntrinsicWidth(), marker.getIntrinsicHeight());
-        DestinationOverlay overlay = new DestinationOverlay(marker, plotLocation, true);
-        mapView.getOverlays().add(overlay);
+        mDestinationOverlay = new DestinationOverlay(marker, plotLocation);
+        mapView.getOverlays().add(mDestinationOverlay);
     }
 
     /**
@@ -121,7 +123,7 @@ public class SelectDestination extends MapActivity
         switch (item.getItemId())
         {
         case MENU_DONE:
-            GeoPoint selectedLocation = DestinationOverlay.getSelectedLocation();
+            GeoPoint selectedLocation = mDestinationOverlay.getSelectedLocation();
             if (selectedLocation == null)
             {
                 Utilities.reportError(this, Utilities.ERROR, LOCATION_NOT_SET);
