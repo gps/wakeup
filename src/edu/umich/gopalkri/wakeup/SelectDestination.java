@@ -8,6 +8,7 @@ import android.location.LocationManager;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.Toast;
 
 import com.google.android.maps.GeoPoint;
 import com.google.android.maps.MapActivity;
@@ -23,6 +24,7 @@ public class SelectDestination extends MapActivity
     private static final int MENU_DONE = Menu.FIRST;
 
     private static final String LOCATION_NOT_SET = "You have not selected a location yet. Please do so by tapping anywhere on the map and try again.";
+    private static final String INSTRUCTIONS = "Tap any point on the map to select it. It will be marked with a marker. To change the point, simply tap somewhere else. You can pan and zoom the map in the standard way.";
 
     private DestinationOverlay mDestinationOverlay;
 
@@ -35,33 +37,43 @@ public class SelectDestination extends MapActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.select_destination);
 
+        Toast.makeText(this, INSTRUCTIONS, Toast.LENGTH_LONG).show();
+
         MapView mapView = (MapView) findViewById(R.id.select_destination_mapview);
         mapView.setSatellite(true);
 
-        GeoPoint currentLocation = getCurrentLocation();
-        if (currentLocation != null)
+        GeoPoint plotLocation = null;
+        Bundle extras = getIntent().getExtras();
+        if (extras != null)
         {
-            mapView.getController().setCenter(currentLocation);
-            mapView.getController().setZoom(DEFAULT_ZOOM);
+            String plotLocationStr = extras.getString(LOCATION_STRING);
+            if (plotLocationStr != null)
+            {
+                plotLocation = Utilities.decodeLocationString(plotLocationStr);
+            }
         }
 
-        //LinearLayout zoomLayout = (LinearLayout) findViewById(R.id.select_destination_zoomview);
-        //zoomLayout.addView(mapView.getZoomControls());
+        if (plotLocation != null)
+        {
+            mapView.getController().setCenter(plotLocation);
+            mapView.getController().setZoom(DEFAULT_ZOOM);
+        }
+        else
+        {
+            GeoPoint currentLocation = getCurrentLocation();
+            if (currentLocation != null)
+            {
+                mapView.getController().setCenter(currentLocation);
+                mapView.getController().setZoom(DEFAULT_ZOOM);
+            }
+        }
+
         mapView.setBuiltInZoomControls(true);
 
         mMyLocationOverlay = new MyLocationOverlay(this, mapView);
         mMyLocationOverlay.enableMyLocation();
         mapView.getOverlays().add(mMyLocationOverlay);
 
-        GeoPoint plotLocation = null;
-        if (savedInstanceState != null)
-        {
-            String plotLocationStr = savedInstanceState.getString(LOCATION_STRING);
-            if (plotLocationStr != null)
-            {
-                plotLocation = Utilities.decodeLocationString(plotLocationStr);
-            }
-        }
         Drawable marker = getResources().getDrawable(R.drawable.map_pin_32);
         marker.setBounds(0, 0, marker.getIntrinsicWidth(), marker.getIntrinsicHeight());
         mDestinationOverlay = new DestinationOverlay(marker, plotLocation);
@@ -126,7 +138,7 @@ public class SelectDestination extends MapActivity
             GeoPoint selectedLocation = mDestinationOverlay.getSelectedLocation();
             if (selectedLocation == null)
             {
-                Utilities.reportError(this, Utilities.ERROR, LOCATION_NOT_SET);
+                Utilities.createErrorDialog(this, Utilities.ERROR, LOCATION_NOT_SET).show();
                 return true;
             }
             String locStr = Utilities.encodeLocation(selectedLocation);

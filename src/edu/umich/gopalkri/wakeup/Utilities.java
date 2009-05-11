@@ -10,17 +10,17 @@ public class Utilities
 {
     public static final String ERROR = "ERROR!";
 
-    public static void reportError(Context ctx, String title, String message)
+    public static AlertDialog createErrorDialog(Context ctx, String title, String message)
     {
-        AlertDialog.Builder builder = new AlertDialog.Builder(ctx);
-        builder.setTitle(title);
-        builder.setMessage(message);
-        builder.setPositiveButton("OK", new DialogInterface.OnClickListener()
+        AlertDialog dialog = new AlertDialog.Builder(ctx).create();
+        dialog.setTitle(title);
+        dialog.setMessage(message);
+        dialog.setButton("OK", new DialogInterface.OnClickListener()
         {
             public void onClick(DialogInterface dialog, int whichButton)
             {}
         });
-        builder.show();
+        return dialog;
     }
 
     private static final String LOCATION_ENCODE_SEPARATOR = "Z";

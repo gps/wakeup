@@ -1,9 +1,14 @@
 package edu.umich.gopalkri.wakeup;
 
 import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.util.List;
+import java.util.Locale;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.location.Address;
+import android.location.Geocoder;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ArrayAdapter;
@@ -27,11 +32,14 @@ public class EditAlarm extends Activity
     private static final int SELECT_DESTINATION = 1;
 
     private static final String RADIUS_COULD_NOT_BE_PARSED = "The proximity radius you entered could not be parsed as a number. You need to enter a number (can be a decimal). Please fix this and try again.";
+    private static final String NO_RADIUS = "You have not entered a proximity radius. Please do so and try again.";
     private static final String INVALID_ALARM_NAME = "The alarm name you supplied is invalid. Alarm names cannot contain the character sequence: \""
             + Alarm.FIELD_SEPARATOR
             + "\" (without the \"). Please enter another name and try again.";
+    private static final String NO_ALARM_NAME = "You have not entered a name for this alarm. Please do so first and try again.";
     private static final String ALARM_ALREADY_EXISTS = "An alarm with this name already exists. Please pick another name, or delete the existing alarm first and then try again.";
     private static final String LOCATION_NOT_SET = "You have not set a location for this alarm. Please do so and try again.";
+    private static final String UNABLE_TO_GEOCODE = "Wake Up! was unable to geocode the street address you provided. Please try a different one, or pick a desination using the map.";
     private static final String LOCATION_SET = "The destination you picked is: ";
 
     /**
@@ -87,20 +95,18 @@ public class EditAlarm extends Activity
         {
         case SELECT_DESTINATION:
             String locStr = bundle.getString(SelectDestination.LOCATION_STRING);
-            if (locStr == null)
+            if (locStr != null)
             {
-                // This should not happen.
-                throw new RuntimeException("SelectDestination returned a null location string.");
+                GeoPoint selectedLocation = Utilities.decodeLocationString(locStr);
+                Double latitude = Utilities.getLatitudeFromGeoPoint(selectedLocation);
+                Double longitude = Utilities.getLongitudeFromGeoPoint(selectedLocation);
+                mThisAlarm.setLatitude(latitude);
+                mThisAlarm.setLongitude(longitude);
+                mLocationSet = true;
+                Toast toast = Toast.makeText(this, LOCATION_SET + latitude.toString() + ", "
+                        + longitude.toString() + ".", Toast.LENGTH_LONG);
+                toast.show();
             }
-            GeoPoint selectedLocation = Utilities.decodeLocationString(locStr);
-            Double latitude = Utilities.getLatitudeFromGeoPoint(selectedLocation);
-            Double longitude = Utilities.getLongitudeFromGeoPoint(selectedLocation);
-            mThisAlarm.setLatitude(latitude);
-            mThisAlarm.setLongitude(longitude);
-            mLocationSet = true;
-            Toast toast = Toast.makeText(this, LOCATION_SET + latitude.toString() + ", "
-                    + longitude.toString() + ".", Toast.LENGTH_LONG);
-            toast.show();
         }
     }
 
@@ -123,7 +129,19 @@ public class EditAlarm extends Activity
         searchAddress.setOnClickListener(new View.OnClickListener()
         {
             public void onClick(View v)
-            {}
+            {
+                GeoPoint loc = geocodeAddress(mETAlarmSearch.getText().toString().trim());
+                if (loc == null)
+                {
+                    // FIXME CHeck that EditAlarm.this actually works.
+                    Utilities.createErrorDialog(EditAlarm.this, Utilities.ERROR, UNABLE_TO_GEOCODE)
+                            .show();
+                    return;
+                }
+                String locStr = Utilities.encodeLocation(loc);
+                mSelectDestinationIntent.putExtra(SelectDestination.LOCATION_STRING, locStr);
+                startActivityForResult(mSelectDestinationIntent, SELECT_DESTINATION);
+            }
         });
 
         // Setup Save button.
@@ -135,10 +153,14 @@ public class EditAlarm extends Activity
                 if (!mLocationSet)
                 {
                     // FIXME Check that EditAlarm.this actually works.
-                    Utilities.reportError(EditAlarm.this, Utilities.ERROR, LOCATION_NOT_SET);
+                    Utilities.createErrorDialog(EditAlarm.this, Utilities.ERROR, LOCATION_NOT_SET)
+                            .show();
                     return;
                 }
-                updateAlarm();
+                if (!updateAlarm())
+                {
+                    return;
+                }
                 try
                 {
                     if (mNewAlarm)
@@ -160,7 +182,8 @@ public class EditAlarm extends Activity
                 {
                     // An alarm with this name already exists.
                     // FIXME Check that EditAlarm.this actually works.
-                    Utilities.reportError(EditAlarm.this, Utilities.ERROR, ALARM_ALREADY_EXISTS);
+                    Utilities.createErrorDialog(EditAlarm.this, Utilities.ERROR,
+                            ALARM_ALREADY_EXISTS).show();
                     return;
                 }
                 setResult(RESULT_OK);
@@ -174,6 +197,7 @@ public class EditAlarm extends Activity
         {
             public void onClick(View v)
             {
+                mETAlarmSearch.setText("");
                 startActivityForResult(mSelectDestinationIntent, SELECT_DESTINATION);
             }
         });
@@ -188,6 +212,30 @@ public class EditAlarm extends Activity
         }
     }
 
+    private GeoPoint geocodeAddress(String address)
+    {
+        Geocoder gc = new Geocoder(this, Locale.getDefault());
+        List<Address> locations = null;
+        try
+        {
+            locations = gc.getFromLocationName(address, 1); // Only want the
+                                                            // best address
+                                                            // match.
+        }
+        catch (IOException e)
+        {
+            return null;
+        }
+        if (locations == null)
+        {
+            return null;
+        }
+        Address addr = locations.get(0);
+        Double lat = addr.getLatitude() * 1E6;
+        Double lon = addr.getLongitude() * 1E6;
+        return new GeoPoint(lat.intValue(), lon.intValue());
+    }
+
     private void populateFields()
     {
         mETAlarmName.setText(mThisAlarm.getName());
@@ -196,26 +244,38 @@ public class EditAlarm extends Activity
         mETAlarmSearch.setText("");
     }
 
-    private void updateAlarm()
+    private boolean updateAlarm()
     {
+        String alarmName = mETAlarmName.getText().toString().trim();
+        if (alarmName.compareTo("") == 0)
+        {
+            Utilities.createErrorDialog(this, Utilities.ERROR, NO_ALARM_NAME).show();
+            return false;
+        }
         try
         {
-            mThisAlarm.setName(mETAlarmName.getText().toString());
+            mThisAlarm.setName(alarmName);
         }
         catch (InvalidAlarmNameException ex)
         {
-            Utilities.reportError(this, Utilities.ERROR, INVALID_ALARM_NAME);
-            return;
+            Utilities.createErrorDialog(this, Utilities.ERROR, INVALID_ALARM_NAME).show();
+            return false;
+        }
+        String radiusStr = mETAlarmRadius.getText().toString().trim();
+        if (radiusStr.compareTo("") == 0)
+        {
+            Utilities.createErrorDialog(this, Utilities.ERROR, NO_RADIUS);
+            return false;
         }
         double radius;
         try
         {
-            radius = Double.parseDouble(mETAlarmRadius.getText().toString());
+            radius = Double.parseDouble(radiusStr);
         }
         catch (NumberFormatException ex)
         {
-            Utilities.reportError(this, Utilities.ERROR, RADIUS_COULD_NOT_BE_PARSED);
-            return;
+            Utilities.createErrorDialog(this, Utilities.ERROR, RADIUS_COULD_NOT_BE_PARSED).show();
+            return false;
         }
         mThisAlarm.setRadius(radius);
         try
@@ -227,6 +287,7 @@ public class EditAlarm extends Activity
             // This should not happen.
             throw new RuntimeException("Units spinner and enum Units are out of sync.");
         }
+        return true;
     }
 
     private EditText mETAlarmName;
