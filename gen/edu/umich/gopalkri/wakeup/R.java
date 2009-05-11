@@ -64,6 +64,7 @@ public final class R {
         public static final int home_set_existing_alarm=0x7f050002;
         public static final int home_settings=0x7f050008;
         public static final int home_title=0x7f050001;
+        public static final int manage_alarms_delete_alarm=0x7f050016;
         public static final int select_destination_done=0x7f050014;
         public static final int select_destination_instructions=0x7f050015;
     }

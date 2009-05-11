@@ -54,9 +54,10 @@ public class EditAlarm extends Activity
         mAlarms = new Alarms(this);
         mSelectDestinationIntent = new Intent(this, SelectDestination.class);
 
-        if (savedInstanceState != null)
+        Bundle extras = getIntent().getExtras();
+        if (extras != null)
         {
-            String alarmName = savedInstanceState.getString(ALARM_NAME);
+            String alarmName = extras.getString(ALARM_NAME);
             if (alarmName != null)
             {
                 mThisAlarm = mAlarms.getAlarm(alarmName);

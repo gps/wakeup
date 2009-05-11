@@ -36,6 +36,7 @@ public class Home extends Activity
 
         mAlarms = new Alarms(this);
         mEditAlarmIntent = new Intent(this, EditAlarm.class);
+        mManageAlarmsIntent = new Intent(this, ManageAlarms.class);
 
         setupUI();
     }
@@ -123,7 +124,9 @@ public class Home extends Activity
         manageExistingAlarms.setOnClickListener(new View.OnClickListener()
         {
             public void onClick(View v)
-            {}
+            {
+                startActivity(mManageAlarmsIntent);
+            }
         });
 
         Button createNewAlarm = (Button) findViewById(R.id.home_with_alarms_create_new_alarm);
@@ -169,4 +172,5 @@ public class Home extends Activity
     private Alarms mAlarms;
 
     private Intent mEditAlarmIntent;
+    private Intent mManageAlarmsIntent;
 }

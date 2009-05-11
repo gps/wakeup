@@ -68,7 +68,7 @@ public class Alarms
     {
     }
 
-    public void deleteAlarm(Alarm alarm)
+    public void deleteAlarm(String alarmName)
     {
     }
 
