@@ -15,11 +15,11 @@ Status: Not started.
 
 3.
 Goal: Write help screen.
-Status: Not started.
+Status: Done.
 
 4.
 Goal: Write create new alarm screens.
-Status: Not started.
+Status: In progress - search for address needs to be implemented.
 
 
 BACK-END
@@ -30,3 +30,7 @@ Status: Done.
 2.
 Goal: Persist settings.
 Status: Not started. 
+
+3.
+Goal: Write GPS scanning and notification raising service.
+Status: Not started.
