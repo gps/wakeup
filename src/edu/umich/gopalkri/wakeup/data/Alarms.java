@@ -49,27 +49,60 @@ public class Alarms
         }
     }
 
-    public Alarm getAlarm(String name)
+    public void writeToFile() throws FileNotFoundException
     {
-        initFromFile();
-        return alarmsContainer.getAlarm(name);
-    }
-
-    public void addAlarm(Alarm alarm) throws AlarmAlreadyExistsException, FileNotFoundException
-    {
-        alarmsContainer.addAlarm(alarm);
         PrintWriter pw = new PrintWriter(ctx.openFileOutput(ALARMS_FILE, Context.MODE_PRIVATE));
         pw.write(alarmsContainer.toString());
         pw.flush();
         pw.close();
     }
 
+    public Alarm getAlarm(String name)
+    {
+        initFromFile();
+        return alarmsContainer.getAlarm(name);
+    }
+
+    public void addAlarm(Alarm alarm) throws AlarmAlreadyExistsException
+    {
+        initFromFile();
+        alarmsContainer.addAlarm(alarm);
+        try
+        {
+            writeToFile();
+        }
+        catch (FileNotFoundException e)
+        {
+            // This should not happen.
+            throw new RuntimeException(e);
+        }
+    }
+
     public void updateAlarm(Alarm alarm)
     {
+        try
+        {
+            writeToFile();
+        }
+        catch (FileNotFoundException e)
+        {
+            // This should not happen.
+            throw new RuntimeException(e);
+        }
     }
 
     public void deleteAlarm(String alarmName)
     {
+        alarmsContainer.deleteAlarm(alarmName);
+        try
+        {
+            writeToFile();
+        }
+        catch (FileNotFoundException e)
+        {
+            // This should not happen.
+            throw new RuntimeException(e);
+        }
     }
 
     public String[] getAllAlarmNames()
@@ -141,6 +174,11 @@ public class Alarms
                 throw new AlarmAlreadyExistsException();
             }
             alarms.put(alarm.getName(), alarm);
+        }
+
+        public void deleteAlarm(String alarmName)
+        {
+            alarms.remove(alarmName);
         }
 
         public String[] getAllAlarmNames()

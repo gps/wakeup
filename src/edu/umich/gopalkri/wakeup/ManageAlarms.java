@@ -27,6 +27,8 @@ public class ManageAlarms extends ListActivity
         super.onCreate(savedInstanceState);
 
         mAlarms = new Alarms(this);
+
+        registerForContextMenu(getListView());
     }
 
     /**
@@ -47,7 +49,12 @@ public class ManageAlarms extends ListActivity
     public void onCreateContextMenu(ContextMenu menu, View v, ContextMenuInfo menuInfo)
     {
         super.onCreateContextMenu(menu, v, menuInfo);
-        menu.add(ContextMenu.NONE, DELETE_ID, ContextMenu.NONE, R.string.manage_alarms_delete_alarm);
+        if (!mAlarmsExist)
+        {
+            return;
+        }
+        menu.add(ContextMenu.NONE, DELETE_ID, ContextMenu.NONE,
+                        R.string.manage_alarms_delete_alarm);
     }
 
     /**
@@ -56,6 +63,10 @@ public class ManageAlarms extends ListActivity
     @Override
     public boolean onContextItemSelected(MenuItem item)
     {
+        if (!mAlarmsExist)
+        {
+            return true;
+        }
         switch (item.getItemId())
         {
         case DELETE_ID:
@@ -75,6 +86,10 @@ public class ManageAlarms extends ListActivity
     protected void onListItemClick(ListView l, View v, int position, long id)
     {
         super.onListItemClick(l, v, position, id);
+        if (!mAlarmsExist)
+        {
+            return;
+        }
         Intent i = new Intent(this, EditAlarm.class);
         i.putExtra(EditAlarm.ALARM_NAME, mAlarms.getAllAlarmNames()[position]);
         startActivity(i);
@@ -109,9 +124,24 @@ public class ManageAlarms extends ListActivity
 
     private void updateAlarmsList()
     {
-        setListAdapter(new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, mAlarms
-                .getAllAlarmNames()));
+        String[] entries = null;
+        String[] alarmNames = mAlarms.getAllAlarmNames();
+        if (alarmNames == null)
+        {
+            entries = NO_ALARMS;
+            mAlarmsExist = false;
+        }
+        else
+        {
+            entries = alarmNames;
+            mAlarmsExist = true;
+        }
+        setListAdapter(new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1,
+                entries));
     }
 
     private Alarms mAlarms;
+    private boolean mAlarmsExist;
+
+    private static final String[] NO_ALARMS = { "No alarms exist yet!" };
 }

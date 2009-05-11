@@ -1,6 +1,5 @@
 package edu.umich.gopalkri.wakeup;
 
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.List;
 import java.util.Locale;
@@ -169,12 +168,6 @@ public class EditAlarm extends Activity
                     {
                         mAlarms.updateAlarm(mThisAlarm);
                     }
-                }
-                catch (FileNotFoundException ex)
-                {
-                    // Unexpected error. This should not happen.
-                    throw new RuntimeException(
-                            "Got a FileNotFoundException when trying to create alarm.");
                 }
                 catch (AlarmAlreadyExistsException e)
                 {
