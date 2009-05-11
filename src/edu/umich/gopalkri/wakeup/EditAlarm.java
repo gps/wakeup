@@ -196,6 +196,11 @@ public class EditAlarm extends Activity
             public void onClick(View v)
             {
                 mETAlarmSearch.setText("");
+                if (mLocationSet)
+                {
+                    String strLoc = Utilities.encodeLocation(mThisAlarm.getLatitude(), mThisAlarm.getLongitude());
+                    mSelectDestinationIntent.putExtra(SelectDestination.LOCATION_STRING, strLoc);
+                }
                 startActivityForResult(mSelectDestinationIntent, SELECT_DESTINATION);
             }
         });
