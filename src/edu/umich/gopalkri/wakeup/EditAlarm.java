@@ -42,7 +42,7 @@ import edu.umich.gopalkri.wakeup.data.Alarm;
 import edu.umich.gopalkri.wakeup.data.AlarmAlreadyExistsException;
 import edu.umich.gopalkri.wakeup.data.Alarms;
 import edu.umich.gopalkri.wakeup.data.InvalidAlarmNameException;
-import edu.umich.gopalkri.wakeup.data.Alarm.InvalidAlarmStringException;
+import edu.umich.gopalkri.wakeup.data.InvalidAlarmStringException;
 
 public class EditAlarm extends Activity
 {

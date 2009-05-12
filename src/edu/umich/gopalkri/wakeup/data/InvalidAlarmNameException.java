@@ -22,6 +22,10 @@ package edu.umich.gopalkri.wakeup.data;
 
 import edu.umich.gopalkri.wakeup.WakeUpException;
 
+/**
+ * Thrown when the name of an Alarm is invalid.
+ * @author Gopalkrishna Sharma
+ */
 public class InvalidAlarmNameException extends WakeUpException
 {
     /**

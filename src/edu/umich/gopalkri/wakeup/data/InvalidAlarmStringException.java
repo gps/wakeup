@@ -22,6 +22,10 @@ package edu.umich.gopalkri.wakeup.data;
 
 import edu.umich.gopalkri.wakeup.WakeUpException;
 
+/**
+ * Thrown when an Alarm's String representation is invalid.
+ * @author Gopalkrishna Sharma
+ */
 public class InvalidAlarmStringException extends WakeUpException
 {
     /**

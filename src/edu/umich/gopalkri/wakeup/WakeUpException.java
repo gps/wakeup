@@ -20,6 +20,10 @@ along with Wake Up!.  If not, see <http://www.gnu.org/licenses/>.
 
 package edu.umich.gopalkri.wakeup;
 
+/**
+ * Root of WakeUp's exception hierarchy.
+ * @author Gopalkrishna Sharma
+ */
 public class WakeUpException extends Exception
 {
     /**

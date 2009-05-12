@@ -22,6 +22,10 @@ package edu.umich.gopalkri.wakeup.data;
 
 import edu.umich.gopalkri.wakeup.WakeUpException;
 
+/**
+ * Thrown when there is an attempt to add an already existing alarm.
+ * @author Gopalkrishna Sharma
+ */
 public class AlarmAlreadyExistsException extends WakeUpException
 {
     /**
