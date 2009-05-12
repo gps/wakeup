@@ -22,15 +22,31 @@ package edu.umich.gopalkri.wakeup.data;
 
 import edu.umich.gopalkri.wakeup.WakeUpException;
 
-public class Alarm implements java.io.Serializable
+/**
+ * Handles the persistence of Alarms and provides an interface to query and update alarms.
+ * @author Gopalkrishna Sharma
+ */
+public class Alarm
 {
+    /**
+     * Value used to separate values in an alarm entry - Cannot be part of an Alarm's name.
+     */
     public static final String FIELD_SEPARATOR = "@@@@@";
 
+    /**
+     * Measure of distance.
+     * @author Gopalkrishna Sharma
+     */
     public enum Units
     {
         KM, METERS, MILES, FEET
     }
 
+    /**
+     * Converts a Unit to its integer representation.
+     * @param unit Unit to be converted.
+     * @return unit in it's integer representation.
+     */
     public static int UnitsToInt(Units unit)
     {
         switch (unit)
@@ -48,6 +64,11 @@ public class Alarm implements java.io.Serializable
         }
     }
 
+    /**
+     * Converts a Unit to its String representation.
+     * @param unit Unit to be converted.
+     * @return unit in its String representation.
+     */
     public static String UnitsToString(Units unit)
     {
         switch (unit)
@@ -65,6 +86,12 @@ public class Alarm implements java.io.Serializable
         }
     }
 
+    /**
+     * Converts an integer representing a Unit to a Unit.
+     * @param unit Integer representing a unit to be converted.
+     * @return unit in its Units representation.
+     * @throws InvalidAlarmStringException When the unit is not a valid Unit.
+     */
     public static Units IntToUnits(int unit) throws InvalidAlarmStringException
     {
         switch (unit)
@@ -82,6 +109,11 @@ public class Alarm implements java.io.Serializable
         }
     }
 
+    /**
+     * Thrown when an Alarm's String representation is invalid.
+     * @author Gopalkrishna Sharma
+     *
+     */
     public class InvalidAlarmStringException extends WakeUpException
     {
         /**
@@ -90,9 +122,17 @@ public class Alarm implements java.io.Serializable
         private static final long serialVersionUID = 8770589743483321463L;
     }
 
+    /**
+     * Default constructor - does nothing.
+     */
     public Alarm()
     {}
 
+    /**
+     * Initializes this object after decoding alarmStr.
+     * @param alarmStr String representation of alarm.
+     * @throws InvalidAlarmStringException When alarmStr is not valid.
+     */
     public Alarm(String alarmStr) throws InvalidAlarmStringException
     {
         String split[] = alarmStr.split(FIELD_SEPARATOR);
@@ -118,6 +158,15 @@ public class Alarm implements java.io.Serializable
         }
     }
 
+    /**
+     * Initializes this object with arguments passed in.
+     * @param name Name of alarm.
+     * @param latitude Latitude of destination.
+     * @param longitude Longitude of destination.
+     * @param radius Proximity radius
+     * @param unit Unit of measurement of proximity radius.
+     * @throws InvalidAlarmNameException When alarm name is invalid.
+     */
     public Alarm(String name, double latitude, double longitude, double radius, Units unit)
             throws InvalidAlarmNameException
     {
@@ -132,6 +181,10 @@ public class Alarm implements java.io.Serializable
         this.unit = unit;
     }
 
+    /**
+     * Encodes this object into a String representation.
+     * @return String representation of this Alarm object.
+     */
     public String toString()
     {
         StringBuilder sb = new StringBuilder();
@@ -147,11 +200,20 @@ public class Alarm implements java.io.Serializable
         return sb.toString();
     }
 
+    /**
+     * Gets name of this Alarm.
+     * @return Name of this Alarm.
+     */
     public String getName()
     {
         return name;
     }
 
+    /**
+     * Sets the name of this Alarm.
+     * @param name Name of alarm.
+     * @throws InvalidAlarmNameException When name is an invalid Alarm name.
+     */
     public void setName(String name) throws InvalidAlarmNameException
     {
         if (name.contains(FIELD_SEPARATOR))
@@ -161,36 +223,64 @@ public class Alarm implements java.io.Serializable
         this.name = name;
     }
 
+    /**
+     * Gets latitude of destination of this Alarm.
+     * @return Latitude of destination.
+     */
     public double getLatitude()
     {
         return latitude;
     }
 
+    /**
+     * Sets latitude of destination of this Alarm.
+     * @param latitude Latitude of destination.
+     */
     public void setLatitude(double latitude)
     {
         this.latitude = latitude;
     }
 
+    /**
+     * Gets longitude of destination of this Alarm.
+     * @return Longitude of destination.
+     */
     public double getLongitude()
     {
         return longitude;
     }
 
+    /**
+     * Sets longitude of destination of this Alarm.
+     * @param longitude Longitude of destination.
+     */
     public void setLongitude(double longitude)
     {
         this.longitude = longitude;
     }
 
+    /**
+     * Gets proximity radius of this Alarm in Units returned by getUnit().
+     * @return Proximity radius.
+     */
     public double getRadius()
     {
         return radius;
     }
 
+    /**
+     * Sets proximity radius of this Alarm.
+     * @param radius Proximity radius.
+     */
     public void setRadius(double radius)
     {
         this.radius = radius;
     }
 
+    /**
+     * Gets proximity radius of this Alarm in meters.
+     * @return Proximity radius.
+     */
     public double getRadiusInMeters()
     {
         switch (unit)
@@ -208,28 +298,46 @@ public class Alarm implements java.io.Serializable
         return -1;
     }
 
+    /**
+     * Gets unit of measurement of proximity radius of this Alarm.
+     * @return Unit of measurement of proximity radius.
+     */
     public Units getUnit()
     {
         return unit;
     }
 
+    /**
+     * Sets unit of measurement of proximity radius of this Alarm.
+     * @param unit Unit of measurement of proximity radius.
+     */
     public void setUnit(Units unit)
     {
         this.unit = unit;
     }
 
+    /**
+     * Name of Alarm.
+     */
     private String name;
 
+    /**
+     * Latitude of destination.
+     */
     private double latitude;
 
+    /**
+     * Longitude of destination.
+     */
     private double longitude;
 
+    /**
+     * Proximity radius.
+     */
     private double radius;
 
-    private Units unit;
-
     /**
-     * Autogenerated.
+     * Unit of radius.
      */
-    private static final long serialVersionUID = -492202907798984554L;
+    private Units unit;
 }
