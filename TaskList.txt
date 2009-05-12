@@ -3,11 +3,25 @@ Task List for Wake Up!
 This is an informal task list. Written to help me keep track of what I've done 
 and what I still need to do.
 
+GENERAL
+
+1.
+Goal: Source code cleanup.
+Status: In Progress.
+
+2.
+Goal: Write Javadoc.
+Status: In Progress.
+
+3.
+Goal: Publish.
+Status: Not Started.
+
 UI
 
 1.
 Goal: Write home screen.
-Status: Written with stubs for back-end elements.
+Status: Done.
 
 2.
 Goal: Write settings page.
@@ -25,6 +39,10 @@ Status: Done.
 Goal: Write manage existing alarms screen.
 Status: Done.
 
+6.
+Goal: Create Icons.
+Status: Not Started.
+
 
 BACK-END
 1.
@@ -33,8 +51,8 @@ Status: Done.
 
 2.
 Goal: Persist settings.
-Status: Not started. 
+Status: Done. 
 
 3.
 Goal: Write GPS scanning and notification raising service.
-Status: Not started.
+Status: Done.
