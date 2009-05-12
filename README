@@ -8,12 +8,11 @@ I wrote this app mostly for my own benefit, but plan on releasing it to the
 Android Market in the near future as a free application. If you have any 
 thoughts, comments, feedback, please let me know via email.
 
-I plan on releasing the source code under the LGPL once I get it to a point 
-where it sorta works. Until then, feel free to do what you want with it.
-Keep in mind that I provide no guarantees whatsoever, and am not responsible
-for any consequences of using this code. I would much appreciate it if you let
-me know if you do use the app or the source. It's always nice to know that 
-other people use what I write :)
+LICENSING:
+WakeUp! is released under the LGPL. For more information on the LGPL refer to:
+http://www.gnu.org/licenses/lgpl.html. I request that you let me know via email
+if you do use WakeUp! (either source, or as an application). It's always good to
+know that my work is useful to someone else.
 
 CONTACT:
 You can contact me via email: gopalkrishnaps@gmail.com / gopalkri@umich.edu
