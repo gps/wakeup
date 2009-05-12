@@ -2,7 +2,6 @@ package edu.umich.gopalkri.wakeup.data;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -49,10 +48,7 @@ public class Alarms
 
     public void writeToFile() throws FileNotFoundException
     {
-        PrintWriter pw = new PrintWriter(ctx.openFileOutput(ALARMS_FILE, Context.MODE_PRIVATE));
-        pw.write(alarmsContainer.toString());
-        pw.flush();
-        pw.close();
+        Utilities.writeStringToFile(alarmsContainer.toString(), ctx.openFileOutput(ALARMS_FILE, Context.MODE_PRIVATE));
     }
 
     public Alarm getAlarm(String name)

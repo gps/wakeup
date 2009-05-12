@@ -1,6 +1,9 @@
 package edu.umich.gopalkri.wakeup;
 
+import java.io.FileNotFoundException;
+
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
@@ -9,6 +12,7 @@ import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.Spinner;
+import android.widget.Toast;
 import edu.umich.gopalkri.wakeup.data.Alarms;
 
 /**
@@ -37,6 +41,7 @@ public class Home extends Activity
         mAlarms = new Alarms(this);
         mEditAlarmIntent = new Intent(this, EditAlarm.class);
         mManageAlarmsIntent = new Intent(this, ManageAlarms.class);
+        mStartGPSServiceIntent = new Intent(this, GPSService.class);
 
         setupUI();
     }
@@ -103,9 +108,11 @@ public class Home extends Activity
     }
 
     /**
-     * Sets up Home Screen layout with the ability to select an existing alarm, and create new
-     * alarms.
-     * @param alarmNames Names of all known alarms.
+     * Sets up Home Screen layout with the ability to select an existing alarm,
+     * and create new alarms.
+     *
+     * @param alarmNames
+     *            Names of all known alarms.
      */
     private void setupHomeWithAlarms(String[] alarmNames)
     {
@@ -116,7 +123,27 @@ public class Home extends Activity
         done.setOnClickListener(new View.OnClickListener()
         {
             public void onClick(View v)
-            {}
+            {
+                int pos = mExistingAlarmsSpinner.getSelectedItemPosition();
+                if (pos == Spinner.INVALID_POSITION)
+                {
+                    return; // No alarm selected.
+                }
+                String alarmName = mAlarms.getAllAlarmNames()[pos];
+                try
+                {
+                    Utilities.writeStringToFile(alarmName, openFileOutput(GPSService.ACTIVE_ALARM_FILE, Context.MODE_PRIVATE));
+                }
+                catch (FileNotFoundException e)
+                {
+                    // This should never happen.
+                    throw new RuntimeException(e);
+                }
+                startService(mStartGPSServiceIntent);
+                Toast.makeText(Home.this,
+                        "Alarm set. You will be alerted when you approach your desination.",
+                        Toast.LENGTH_LONG).show();
+            }
         });
 
         // Handle the onClick event for the Manage Existing Alarms button.
@@ -132,12 +159,11 @@ public class Home extends Activity
         Button createNewAlarm = (Button) findViewById(R.id.home_with_alarms_create_new_alarm);
         createNewAlarm.setOnClickListener(createNewAlarmListener);
 
-        // Setup the Existing Alarms spinner.
-        Spinner existingAlarms = (Spinner) findViewById(R.id.home_existing_alarms_spinner);
+        mExistingAlarmsSpinner = (Spinner) findViewById(R.id.home_existing_alarms_spinner);
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,
                 android.R.layout.simple_spinner_item, alarmNames);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        existingAlarms.setAdapter(adapter);
+        mExistingAlarmsSpinner.setAdapter(adapter);
     }
 
     /**
@@ -173,4 +199,7 @@ public class Home extends Activity
 
     private Intent mEditAlarmIntent;
     private Intent mManageAlarmsIntent;
+    private Intent mStartGPSServiceIntent;
+
+    private Spinner mExistingAlarmsSpinner;
 }

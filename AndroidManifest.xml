@@ -15,6 +15,7 @@
 		<activity android:name=".EditAlarm" android:label="@string/app_name" />
 		<activity android:name=".SelectDestination" android:label="@string/app_name" />
 		<activity android:name=".ManageAlarms" android:label="@string/app_name" />
+		<activity android:name=".ReceiveNotification" android:label="@string/app_name" />
 
 		<service android:name=".GPSService" android:enabled="true" />
 
@@ -25,4 +26,5 @@
 
 	<uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
 	<uses-permission android:name="android.permission.INTERNET" />
+	<uses-permission android:name="android.permission.VIBRATE" />
 </manifest>

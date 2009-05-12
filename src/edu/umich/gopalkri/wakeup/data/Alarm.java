@@ -28,6 +28,23 @@ public class Alarm implements java.io.Serializable
         }
     }
 
+    public static String UnitsToString(Units unit)
+    {
+        switch (unit)
+        {
+        case KM:
+            return "km";
+        case METERS:
+            return "meters";
+        case MILES:
+            return "miles";
+        case FEET:
+            return "feet";
+        default:
+            return null;
+        }
+    }
+
     public static Units IntToUnits(int unit) throws InvalidAlarmStringException
     {
         switch (unit)

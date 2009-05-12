@@ -4,12 +4,17 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-
-import com.google.android.maps.GeoPoint;
+import java.io.OutputStream;
+import java.io.PrintWriter;
 
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+
+import com.google.android.maps.GeoPoint;
+
+import edu.umich.gopalkri.wakeup.data.Alarm;
+import edu.umich.gopalkri.wakeup.data.Alarms;
 
 public class Utilities
 {
@@ -80,5 +85,30 @@ public class Utilities
             sb.append("\n");
         }
         return sb.toString();
+    }
+
+    public static void writeStringToFile(String text, OutputStream os)
+    {
+        PrintWriter pw = new PrintWriter(os);
+        pw.write(text);
+        pw.flush();
+        pw.close();
+    }
+
+    public static Alarm getActiveAlarm(Context ctx)
+    {
+        String alarmName;
+        try
+        {
+            alarmName = Utilities.convertInputStreamToString(ctx.openFileInput(GPSService.ACTIVE_ALARM_FILE)).trim();
+        }
+        catch (IOException e)
+        {
+            // No alarm.
+            return null;
+        }
+        Alarms alarms = new Alarms(ctx);
+        Alarm alarm = alarms.getAlarm(alarmName);
+        return alarm;
     }
 }
