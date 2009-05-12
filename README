@@ -4,9 +4,10 @@ you to set an alarm which is triggered when you approach your destination. This
 way you set an alarm when you get on, go to sleep, and get woken up right on 
 time. 
 
-I wrote this app mostly for my own benefit, but plan on releasing it to the 
-Android Market in the near future as a free application. If you have any 
-thoughts, comments, feedback, please let me know via email.
+I wrote this app mostly for my own benefit. However, it has been released on the
+Android Market as a free application. Search for "wake up". There is also a
+signed apk under the downloads section on Github if you prefer to install it
+that way. 
 
 The Wake Up! webpage is at: http://umich.edu/~gopalkri/wakeup.
 
