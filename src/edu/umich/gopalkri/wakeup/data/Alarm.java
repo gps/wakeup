@@ -22,7 +22,7 @@ package edu.umich.gopalkri.wakeup.data;
 
 
 /**
- * Handles the persistence of Alarms and provides an interface to query and update alarms.
+ * Represents an Alarm.
  * @author Gopalkrishna Sharma
  */
 public class Alarm
