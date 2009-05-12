@@ -92,8 +92,18 @@ public class Alarms
         }
     }
 
-    public void updateAlarm(Alarm alarm)
+    public void updateAlarm(String originalAlarmName, Alarm alarm) throws AlarmAlreadyExistsException
     {
+        if (originalAlarmName != null)
+        {
+            alarmsContainer.deleteAlarm(originalAlarmName);
+            if (alarmsContainer.getAlarm(alarm.getName()) != null)
+            {
+                // Alarm already exists.
+                throw new AlarmAlreadyExistsException();
+            }
+            alarmsContainer.addAlarm(alarm);
+        }
         try
         {
             writeToFile();

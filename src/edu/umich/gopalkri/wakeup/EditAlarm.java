@@ -82,12 +82,14 @@ public class EditAlarm extends Activity
                 mThisAlarm = mAlarms.getAlarm(alarmName);
                 mNewAlarm = false;
                 mLocationSet = true;
+                mOriginalAlarmName = alarmName;
             }
             else
             {
                 mThisAlarm = new Alarm();
                 mNewAlarm = true;
                 mLocationSet = false;
+                mOriginalAlarmName = null;
             }
         }
         else
@@ -95,6 +97,7 @@ public class EditAlarm extends Activity
             mThisAlarm = new Alarm();
             mNewAlarm = true;
             mLocationSet = false;
+            mOriginalAlarmName = null;
         }
 
         setupUI();
@@ -186,7 +189,7 @@ public class EditAlarm extends Activity
                     }
                     else
                     {
-                        mAlarms.updateAlarm(mThisAlarm);
+                        mAlarms.updateAlarm(mOriginalAlarmName, mThisAlarm);
                     }
                 }
                 catch (AlarmAlreadyExistsException e)
@@ -264,7 +267,6 @@ public class EditAlarm extends Activity
     {
         if (!mLocationSet)
         {
-            // FIXME Check that EditAlarm.this actually works.
             Utilities.createAlertDialog(this, Utilities.ERROR, LOCATION_NOT_SET)
                     .show();
             return false;
@@ -325,4 +327,5 @@ public class EditAlarm extends Activity
     private Alarm mThisAlarm;
     private boolean mNewAlarm;
     private boolean mLocationSet;
+    private String mOriginalAlarmName;
 }
