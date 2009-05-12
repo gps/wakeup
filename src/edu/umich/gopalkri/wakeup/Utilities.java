@@ -1,5 +1,10 @@
 package edu.umich.gopalkri.wakeup;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+
 import com.google.android.maps.GeoPoint;
 
 import android.app.AlertDialog;
@@ -62,5 +67,18 @@ public class Utilities
     public static double getLongitudeFromGeoPoint(GeoPoint gp)
     {
         return gp.getLongitudeE6() / 1E6;
+    }
+
+    public static String convertInputStreamToString(InputStream is) throws IOException
+    {
+        BufferedReader br = new BufferedReader(new InputStreamReader(is));
+        StringBuilder sb = new StringBuilder();
+        String line = null;
+        while ((line = br.readLine()) != null)
+        {
+            sb.append(line);
+            sb.append("\n");
+        }
+        return sb.toString();
     }
 }
