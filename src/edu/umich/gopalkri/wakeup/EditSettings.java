@@ -37,11 +37,22 @@ public class EditSettings extends Activity
     protected void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
-
         mSettings = new Settings(this);
+    }
 
+
+
+    /**
+     * @see android.app.Activity#onResume()
+     */
+    @Override
+    protected void onResume()
+    {
+        super.onResume();
         setupUI();
     }
+
+
 
     private void setupUI()
     {
@@ -68,13 +79,13 @@ public class EditSettings extends Activity
         vibrate.setChecked(mSettings.getVibrate());
 
         final CheckBox led = (CheckBox) findViewById(R.id.edit_settings_led_checkbox);
-        vibrate.setOnClickListener(new View.OnClickListener()
+        led.setOnClickListener(new View.OnClickListener()
         {
             public void onClick(View v)
             {
                 mSettings.setLed(led.isChecked());
             }
         });
-        vibrate.setChecked(mSettings.getLed());
+        led.setChecked(mSettings.getLed());
     }
 }

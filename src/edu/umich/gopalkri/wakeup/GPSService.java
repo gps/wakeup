@@ -28,6 +28,7 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.graphics.Color;
 import android.location.LocationManager;
 import android.os.IBinder;
 import edu.umich.gopalkri.wakeup.data.Alarm;
@@ -151,11 +152,15 @@ public class GPSService extends Service
             {
                 notification.defaults |= Notification.DEFAULT_SOUND;
             }
-            if (mSettings.getVibrate())
-            {
-                notification.defaults |= Notification.DEFAULT_LIGHTS;
-            }
             if (mSettings.getLed())
+            {
+                //notification.defaults |= Notification.DEFAULT_LIGHTS;
+                notification.ledARGB = Color.RED;
+                notification.ledOffMS = 3000;
+                notification.ledOnMS = 1000;
+                notification.flags |= Notification.FLAG_SHOW_LIGHTS;
+            }
+            if (mSettings.getVibrate())
             {
                 notification.defaults |= Notification.DEFAULT_VIBRATE;
             }

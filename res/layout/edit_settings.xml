@@ -33,53 +33,21 @@ along with Wake Up!.  If not, see <http://www.gnu.org/licenses/>.
 			android:layout_width="fill_parent"
 			android:layout_height="fill_parent" >
 
-			<LinearLayout android:orientation="horizontal"
-				android:layout_width="fill_parent"
-				android:layout_height="wrap_content" >
+			<CheckBox android:id="@+id/edit_settings_sound_checkbox"
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:text="@string/edit_settings_sound" />
 
-				<TextView android:text="@string/edit_settings_sound"
-					android:layout_width="wrap_content"
-					android:layout_height="wrap_content"
-					android:gravity="left" />
+			<CheckBox android:id="@+id/edit_settings_vibrate_checkbox"
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:text="@string/edit_settings_vibrate" />
 
-				<CheckBox android:id="@+id/edit_settings_sound_checkbox"
-					android:layout_width="wrap_content"
-					android:layout_height="wrap_content"
-					android:gravity="left" />
-
-			</LinearLayout>
-
-			<LinearLayout android:orientation="horizontal"
-				android:layout_width="fill_parent"
-				android:layout_height="wrap_content" >
-
-				<TextView android:text="@string/edit_settings_vibrate"
-					android:layout_width="wrap_content"
-					android:layout_height="wrap_content"
-					android:gravity="left" />
-
-				<CheckBox android:id="@+id/edit_settings_vibrate_checkbox"
-					android:layout_width="wrap_content"
-					android:layout_height="wrap_content"
-					android:gravity="left" />
-
-			</LinearLayout>
-
-			<LinearLayout android:orientation="horizontal"
-				android:layout_width="fill_parent"
-				android:layout_height="wrap_content" >
-
-				<TextView android:text="@string/edit_settings_led"
-					android:layout_width="wrap_content"
-					android:layout_height="wrap_content"
-					android:gravity="left" />
-
-				<CheckBox android:id="@+id/edit_settings_led_checkbox"
-					android:layout_width="wrap_content"
-					android:layout_height="wrap_content"
-					android:gravity="left" />
-
-			</LinearLayout>
+			<CheckBox android:id="@+id/edit_settings_led_checkbox"
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:gravity="right|center_vertical"
+				android:text="@string/edit_settings_led" />
 
 		</LinearLayout>
 
