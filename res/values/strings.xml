@@ -29,4 +29,6 @@
 
     <string name="manage_alarms_delete_alarm">Delete</string>
 
+    <string name="receive_notification_home">Go To Home Screen"</string>
+
 </resources>

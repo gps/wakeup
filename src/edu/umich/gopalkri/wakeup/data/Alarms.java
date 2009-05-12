@@ -1,15 +1,12 @@
 package edu.umich.gopalkri.wakeup.data;
 
-import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.io.PrintWriter;
 import java.util.HashMap;
 import java.util.Map;
 
 import android.content.Context;
+import edu.umich.gopalkri.wakeup.Utilities;
 import edu.umich.gopalkri.wakeup.data.Alarm.InvalidAlarmStringException;
 
 public class Alarms
@@ -26,7 +23,7 @@ public class Alarms
     {
         try
         {
-            alarmsContainer = new AlarmsContainer(convertInputStreamToString(ctx
+            alarmsContainer = new AlarmsContainer(Utilities.convertInputStreamToString(ctx
                     .openFileInput(ALARMS_FILE)));
         }
         catch (FileNotFoundException e)
@@ -51,10 +48,7 @@ public class Alarms
 
     public void writeToFile() throws FileNotFoundException
     {
-        PrintWriter pw = new PrintWriter(ctx.openFileOutput(ALARMS_FILE, Context.MODE_PRIVATE));
-        pw.write(alarmsContainer.toString());
-        pw.flush();
-        pw.close();
+        Utilities.writeStringToFile(alarmsContainer.toString(), ctx.openFileOutput(ALARMS_FILE, Context.MODE_PRIVATE));
     }
 
     public Alarm getAlarm(String name)
@@ -109,19 +103,6 @@ public class Alarms
     {
         initFromFile();
         return alarmsContainer.getAllAlarmNames();
-    }
-
-    private static String convertInputStreamToString(InputStream is) throws IOException
-    {
-        BufferedReader br = new BufferedReader(new InputStreamReader(is));
-        StringBuilder sb = new StringBuilder();
-        String line = null;
-        while ((line = br.readLine()) != null)
-        {
-            sb.append(line);
-            sb.append("\n");
-        }
-        return sb.toString();
     }
 
     private Context ctx;

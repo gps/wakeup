@@ -28,6 +28,23 @@ public class Alarm implements java.io.Serializable
         }
     }
 
+    public static String UnitsToString(Units unit)
+    {
+        switch (unit)
+        {
+        case KM:
+            return "km";
+        case METERS:
+            return "meters";
+        case MILES:
+            return "miles";
+        case FEET:
+            return "feet";
+        default:
+            return null;
+        }
+    }
+
     public static Units IntToUnits(int unit) throws InvalidAlarmStringException
     {
         switch (unit)
@@ -152,6 +169,23 @@ public class Alarm implements java.io.Serializable
     public void setRadius(double radius)
     {
         this.radius = radius;
+    }
+
+    public double getRadiusInMeters()
+    {
+        switch (unit)
+        {
+        case KM:
+            return radius * 1E3;
+        case METERS:
+            return radius;
+        case MILES:
+            return radius * 1609.344; // 1 mile = 1609.344 meters.
+        case FEET:
+            return radius * 0.3048; // 1 foot = 0.3048 meters.
+        }
+        // Should never happen.
+        return -1;
     }
 
     public Units getUnit()

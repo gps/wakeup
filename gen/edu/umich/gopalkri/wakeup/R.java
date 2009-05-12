@@ -33,15 +33,17 @@ public final class R {
         public static final int home_no_alarms_create_new_alarm=0x7f06000a;
         public static final int home_no_alarms_exist=0x7f060009;
         public static final int home_with_alarms_create_new_alarm=0x7f06000e;
-        public static final int mainlayout=0x7f06000f;
-        public static final int select_destination_mapview=0x7f060010;
+        public static final int mainlayout=0x7f060010;
+        public static final int receive_notification_text=0x7f06000f;
+        public static final int select_destination_mapview=0x7f060011;
     }
     public static final class layout {
         public static final int edit_alarm=0x7f030000;
         public static final int help=0x7f030001;
         public static final int home_no_alarms=0x7f030002;
         public static final int home_with_alarms=0x7f030003;
-        public static final int select_destination=0x7f030004;
+        public static final int receive_notification=0x7f030004;
+        public static final int select_destination=0x7f030005;
     }
     public static final class string {
         public static final int app_name=0x7f050000;
@@ -65,6 +67,7 @@ public final class R {
         public static final int home_settings=0x7f050008;
         public static final int home_title=0x7f050001;
         public static final int manage_alarms_delete_alarm=0x7f050016;
+        public static final int receive_notification_home=0x7f050017;
         public static final int select_destination_done=0x7f050014;
         public static final int select_destination_instructions=0x7f050015;
     }
