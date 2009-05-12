@@ -9,7 +9,7 @@
     <string name="home_create_new_alarm">Create New Alarm</string>
     <string name="home_manage_existing_alarms">Manage Exising Alarms</string>
     <string name="home_no_alarms_exist">No Alarms Exist</string>
-    <string name="home_settings">Settings</string>
+    <string name="home_settings">Notification Settings</string>
     <string name="home_help">Help</string>
 
     <string name="help_text">Instructions:\n\nUse the Home Screen to set an alarm. You can either select an alarm you have already specified, or create a new one. To set an existing alarm, select it from the spinner and hit Done. To create a new alarm, hit Create New Alarm. This will pop up the Create Alarm screen. Enter the name, radius and units of measurement for the radius. You now have to pick the destination. You can do this in one of two ways. First, you can pick the destination on the map. To do this hit Pick From Map. That will pop up a map allowing you to select a point by touching the screen. A marker will be drawn on the point you choose. If you make a mistake, just correct it by tapping on another point. The old one will disappear. The second way to specify is to specify a street address. Wake Up! will evaluate the street address using Google Maps, and if it is unable to resolve it correctly, you will notified and asked to enter a new address.\n\nAbout:\n\nWakeUp! was written by Gopalkrishna Sharma. Email: gopalkri@umich.edu .For more information, visit the WakeUp website at: http://github.com/gps/wakeup/tree/master</string>
@@ -30,5 +30,9 @@
     <string name="manage_alarms_delete_alarm">Delete</string>
 
     <string name="receive_notification_home">Go To Home Screen"</string>
+
+	<string name="edit_settings_sound">Play Notification Sound</string>
+	<string name="edit_settings_vibrate">Vibrate</string>
+	<string name="edit_settings_led">Flash LED</string>
 
 </resources>

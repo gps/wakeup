@@ -79,12 +79,13 @@ public class Home extends Activity
         switch (item.getItemId())
         {
         case MENU_SETTINGS:
-            // TODO: start Settings Activity
+            Intent settingsIntent = new Intent(this, EditSettings.class);
+            startActivity(settingsIntent);
             return true;
 
         case MENU_HELP:
-            Intent i = new Intent(this, Help.class);
-            startActivity(i);
+            Intent helpIntent = new Intent(this, Help.class);
+            startActivity(helpIntent);
             return true;
         }
         return super.onOptionsItemSelected(item);

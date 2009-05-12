@@ -11,6 +11,7 @@ import android.content.IntentFilter;
 import android.location.LocationManager;
 import android.os.IBinder;
 import edu.umich.gopalkri.wakeup.data.Alarm;
+import edu.umich.gopalkri.wakeup.data.Settings;
 
 public class GPSService extends Service
 {
@@ -85,9 +86,12 @@ public class GPSService extends Service
 
     public class ProximityIntentReceiver extends BroadcastReceiver
     {
+        private Settings mSettings;
+
         @Override
         public void onReceive(Context context, Intent intent)
         {
+            mSettings = new Settings(context);
             boolean entering = intent
                     .getBooleanExtra(LocationManager.KEY_PROXIMITY_ENTERING, false);
             if (entering)
@@ -123,9 +127,18 @@ public class GPSService extends Service
                     + Alarm.UnitsToString(alarm.getUnit()) + " of your destination.";
             notification.setLatestEventInfo(ctx, expandedTitle, expandedText, launchIntent);
 
-            notification.defaults |= Notification.DEFAULT_SOUND;
-            notification.defaults |= Notification.DEFAULT_LIGHTS;
-            notification.defaults |= Notification.DEFAULT_VIBRATE;
+            if (mSettings.getPlaySound())
+            {
+                notification.defaults |= Notification.DEFAULT_SOUND;
+            }
+            if (mSettings.getVibrate())
+            {
+                notification.defaults |= Notification.DEFAULT_LIGHTS;
+            }
+            if (mSettings.getLed())
+            {
+                notification.defaults |= Notification.DEFAULT_VIBRATE;
+            }
 
             NotificationManager notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
             notificationManager.notify(ReceiveNotification.NOTIFICATION_ID, notification);
