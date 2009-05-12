@@ -289,7 +289,7 @@ public class EditAlarm extends Activity
         String radiusStr = mETAlarmRadius.getText().toString().trim();
         if (radiusStr.compareTo("") == 0)
         {
-            Utilities.createAlertDialog(this, Utilities.ERROR, NO_RADIUS);
+            Utilities.createAlertDialog(this, Utilities.ERROR, NO_RADIUS).show();
             return false;
         }
         double radius;
