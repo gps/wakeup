@@ -123,18 +123,9 @@ public class GPSService extends Service
                     + Alarm.UnitsToString(alarm.getUnit()) + " of your destination.";
             notification.setLatestEventInfo(ctx, expandedTitle, expandedText, launchIntent);
 
-            // notification.vibrate = new long[] {2000, 1000, 2000, 1000, 2000};
-            //
-            // notification.ledARGB = Color.RED;
-            // notification.ledOffMS = 0;
-            // notification.ledOnMS = 1;
-            // notification.flags |= Notification.FLAG_SHOW_LIGHTS;
-
             notification.defaults |= Notification.DEFAULT_SOUND;
             notification.defaults |= Notification.DEFAULT_LIGHTS;
             notification.defaults |= Notification.DEFAULT_VIBRATE;
-
-            notification.flags |= Notification.FLAG_INSISTENT;
 
             NotificationManager notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
             notificationManager.notify(ReceiveNotification.NOTIFICATION_ID, notification);
