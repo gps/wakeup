@@ -10,6 +10,16 @@ section.
 
 The Wake Up! webpage is at: http://umich.edu/~gopalkri/wakeup.
 
+FUTURE:
+Wake Up! is still evolving. I am going to keep working on it whenever I can
+find the time. If you would like to see specific features in Wake Up! please
+let me know. I will do what I can to get them in. The current list of 
+requested features follows.
+
+REQUESTED FEATURES:
+1. Send a text message to a contact in addition to firing a notification.
+2. Optimize battery consumption for long journeys.
+
 LICENSING:
 WakeUp! is released under the LGPL. For more information on the LGPL refer to:
 http://www.gnu.org/licenses/lgpl.html. I request that you let me know via email
