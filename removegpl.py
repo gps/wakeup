@@ -1,62 +1,62 @@
 import os
 
-JAVA_LGPL = """/*
+JAVA_GPL = """/*
 Copyright (C) 2009 Gopalkrishna Sharma.
 Email: gopalkri@umich.edu / gopalkrishnaps@gmail.com
 
 This file is part of WakeUp!.
 
 Wake Up! is free software: you can redistribute it and/or modify
-it under the terms of the Lesser GNU General Public License as published by
+it under the terms of the GNU General Public License as published by
 the Free Software Foundation, either version 3 of the License, or
 (at your option) any later version.
 
 Wake Up! is distributed in the hope that it will be useful,
 but WITHOUT ANY WARRANTY; without even the implied warranty of
 MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-Lesser GNU General Public License for more details.
+GNU General Public License for more details.
 
-You should have received a copy of the Lesser GNU General Public License
+You should have received a copy of the GNU General Public License
 along with Wake Up!.  If not, see <http://www.gnu.org/licenses/>.
 */
 
 """
 
-XML_LGPL = """<!--
+XML_GPL = """<!--
 Copyright (C) 2009 Gopalkrishna Sharma.
 Email: gopalkri@umich.edu / gopalkrishnaps@gmail.com
 
 This file is part of WakeUp!.
 
 Wake Up! is free software: you can redistribute it and/or modify
-it under the terms of the Lesser GNU General Public License as published by
+it under the terms of the GNU General Public License as published by
 the Free Software Foundation, either version 3 of the License, or
 (at your option) any later version.
 
 Wake Up! is distributed in the hope that it will be useful,
 but WITHOUT ANY WARRANTY; without even the implied warranty of
 MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-Lesser GNU General Public License for more details.
+GNU General Public License for more details.
 
-You should have received a copy of the Lesser GNU General Public License
+You should have received a copy of the GNU General Public License
 along with Wake Up!.  If not, see <http://www.gnu.org/licenses/>.
 -->
 """
 
 SRC_FILE_EXTNS = ['.java', '.xml']
 
-def removeLGPLFromFile(srcfile):
+def removeGPLFromFile(srcfile):
     fin = open(srcfile, 'r')
     content = fin.read()
     fin.close()
     if srcfile.endswith('.xml'):
-        print 'POS: ', content.find(XML_LGPL)
-        content = content.replace(XML_LGPL, '')
-        print "Removing LGPL statement from file:", srcfile
+        print 'POS: ', content.find(XML_GPL)
+        content = content.replace(XML_GPL, '')
+        print "Removing GPL statement from file:", srcfile
     elif srcfile.endswith('.java'):
-        print 'POS: ', content.find(JAVA_LGPL)
-        content = content.replace(JAVA_LGPL, '')
-        print "Removing LGPL statement from file:", srcfile
+        print 'POS: ', content.find(JAVA_GPL)
+        content = content.replace(JAVA_GPL, '')
+        print "Removing GPL statement from file:", srcfile
     fout = open(srcfile, 'w')
     fout.write(content)
     print content
@@ -82,7 +82,7 @@ def getAllSrcFiles(rootdir):
 
 def main():
     for srcfile in getAllSrcFiles('.'):
-        removeLGPLFromFile(srcfile)
+        removeGPLFromFile(srcfile)
 
 if __name__ == '__main__':
     main()
