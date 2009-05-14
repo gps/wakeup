@@ -2,65 +2,65 @@ import os
 
 SRC_FILE_EXTNS = ['.java', '.xml']
 
-JAVA_LGPL = """/*
+JAVA_GPL = """/*
 Copyright (C) 2009 Gopalkrishna Sharma.
 Email: gopalkri@umich.edu / gopalkrishnaps@gmail.com
 
 This file is part of WakeUp!.
 
 Wake Up! is free software: you can redistribute it and/or modify
-it under the terms of the Lesser GNU General Public License as published by
+it under the terms of the GNU General Public License as published by
 the Free Software Foundation, either version 3 of the License, or
 (at your option) any later version.
 
 Wake Up! is distributed in the hope that it will be useful,
 but WITHOUT ANY WARRANTY; without even the implied warranty of
 MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-Lesser GNU General Public License for more details.
+GNU General Public License for more details.
 
-You should have received a copy of the Lesser GNU General Public License
+You should have received a copy of the GNU General Public License
 along with Wake Up!.  If not, see <http://www.gnu.org/licenses/>.
 */
 
 """
 
-XML_LGPL = """<!--
+XML_GPL = """<!--
 Copyright (C) 2009 Gopalkrishna Sharma.
 Email: gopalkri@umich.edu / gopalkrishnaps@gmail.com
 
 This file is part of WakeUp!.
 
 Wake Up! is free software: you can redistribute it and/or modify
-it under the terms of the Lesser GNU General Public License as published by
+it under the terms of the GNU General Public License as published by
 the Free Software Foundation, either version 3 of the License, or
 (at your option) any later version.
 
 Wake Up! is distributed in the hope that it will be useful,
 but WITHOUT ANY WARRANTY; without even the implied warranty of
 MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-Lesser GNU General Public License for more details.
+GNU General Public License for more details.
 
-You should have received a copy of the Lesser GNU General Public License
+You should have received a copy of the GNU General Public License
 along with Wake Up!.  If not, see <http://www.gnu.org/licenses/>.
 -->
 """
 
 XML_ENCODING_STR = """<?xml version="1.0" encoding="utf-8"?>"""
 
-def addLGPLToFile(filename):
-    lgplmsg = ""
+def addGPLToFile(filename):
+    gplmsg = ""
     fin = open(filename, 'r')
     content = fin.read()
     fin.close()
     if (filename.endswith('.xml')):
         if -1 == content.find(XML_ENCODING_STR):
-            content = XML_LGPL + content
+            content = XML_GPL + content
         else:
-            content = content.replace(XML_ENCODING_STR, XML_ENCODING_STR + "\n" + XML_LGPL)
+            content = content.replace(XML_ENCODING_STR, XML_ENCODING_STR + "\n" + XML_GPL)
     elif filename.endswith('.java'):
-        content = JAVA_LGPL + content
+        content = JAVA_GPL + content
     else:
-        raise ValueError, "Source file LGPL message can be added only to .java and .xml files"
+        raise ValueError, "Source file GPL message can be added only to .java and .xml files"
     fout = open(filename, 'w')
     fout.write(content)
     fout.close()
@@ -85,8 +85,8 @@ def getAllSrcFiles(rootdir):
 
 def main():
     for srcfile in getAllSrcFiles('.'):
-        print "Adding LGPL statement to file:", srcfile
-        addLGPLToFile(srcfile)
+        print "Adding GPL statement to file:", srcfile
+        addGPLToFile(srcfile)
 
 if __name__ == '__main__':
 	main()
